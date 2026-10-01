@@ -3,368 +3,799 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Memory Challenge</title>
+<title>BRAINBYTE — Midnight Neon Brain Arcade</title>
+<meta name="description" content="A premium, immersive brain-gaming platform for college students (18+). Fast games, sharp thinking, high-stakes campus leaderboards, and funny feedback.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="arcade-theme">
+
+<!-- Ambient Cyber Neon Background Glows -->
+<div class="ambient-glow glow-1" aria-hidden="true"></div>
+<div class="ambient-glow glow-2" aria-hidden="true"></div>
+<div class="cyber-grid-overlay" aria-hidden="true"></div>
 
 <!-- ============================================================
-     TOP NAVIGATION
+     DESKTOP TOP NAVIGATION
 ============================================================ -->
-<header class="topnav">
+<header class="topnav" role="banner">
   <div class="topnav-inner">
-    <button class="brand" data-nav="home-screen">MEMORY<span>CHALLENGE</span></button>
-    <nav class="nav-links">
-      <button class="nav-link" data-nav="home-screen">Home</button>
-      <button class="nav-link" data-nav="games-screen">Games</button>
-      <button class="nav-link" data-nav="stats-screen">Statistics</button>
-      <button class="nav-link" data-nav="leaderboard-screen">Leaderboard</button>
-      <button class="nav-link nav-icon" data-nav="settings-screen" title="Settings" aria-label="Settings">⚙</button>
+    <a href="#/home" class="brand router-link" data-route="/home" aria-label="BRAINBYTE Home">
+      <div class="brand-logo-mark">
+        <span class="logo-core">⚡</span>
+      </div>
+      <div class="brand-text-group">
+        <span class="brand-name">BRAIN<span class="neon-cyan">BYTE</span></span>
+        <span class="brand-sub">MIDNIGHT LAB</span>
+      </div>
+    </a>
+
+    <nav class="nav-links" aria-label="Main Navigation">
+      <a href="#/home" class="nav-link router-link active" data-route="/home">Home</a>
+      <a href="#/games" class="nav-link router-link" data-route="/games">Games</a>
+      <a href="#/leaderboard" class="nav-link router-link" data-route="/leaderboard">Leaderboard</a>
+      <a href="#/profile" class="nav-link router-link" data-route="/profile">Profile</a>
+      <a href="#/settings" class="nav-link router-link" data-route="/settings">Settings</a>
+      <button class="nav-icon-btn sound-toggle-btn" id="nav-sound-btn" title="Toggle Sound (M)" aria-label="Toggle Sound">
+        <span class="sound-wave-icon">🔊</span>
+      </button>
     </nav>
   </div>
 </header>
 
-<main id="app">
+<!-- Floating Funny Feedback Toast -->
+<div class="funny-toast-container" id="funny-toast-container" aria-live="polite">
+  <div class="funny-toast hidden" id="funny-toast">
+    <span class="toast-emoji" id="toast-emoji">🧠</span>
+    <span class="toast-text" id="toast-text">BIG BRAIN!</span>
+  </div>
+</div>
+
+<main id="app" role="main">
 
   <!-- ============================================================
-       SCREEN: HOME
+       PAGE 1: HOME PAGE (Route: / or /home)
+       Introduces the platform, featured game, daily challenge & stats.
   ============================================================ -->
-  <section class="screen" id="home-screen">
-    <div class="home-hero">
-      <p class="home-eyebrow">Memory Training Lab</p>
-      <h1 class="home-title">MEMORY<br><span>CHALLENGE</span></h1>
-      <p class="home-tagline">Train your memory. Challenge your mind.</p>
-      <button class="btn btn-primary btn-large" id="start-playing-btn">Start Playing →</button>
-      <p class="home-blurb">Choose a challenge, select your difficulty, and test how far your memory can take you.</p>
-    </div>
-
-    <div class="home-stats">
-      <div class="mini-stat">
-        <span class="mini-stat-value" id="home-games-played">0</span>
-        <span class="mini-stat-label">Games Played</span>
+  <section class="page active" id="page-home" data-route="/home">
+    
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <div class="hero-badge">
+        <span class="pulsing-dot"></span>
+        <span class="badge-text">COMPETITIVE BRAIN ARCADE · FOR COLLEGE GAMERS (18+)</span>
       </div>
-      <div class="mini-stat">
-        <span class="mini-stat-value" id="home-best-score">0</span>
-        <span class="mini-stat-label">Best Score</span>
+
+      <h1 class="hero-headline">
+        TRAIN YOUR BRAIN.<br>
+        <span class="headline-gradient">BEAT YOUR SCORE.</span>
+      </h1>
+
+      <p class="hero-subheading">
+        Fast games. Sharp thinking. One more try.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#/games" class="btn btn-neon-primary btn-hero router-link" data-route="/games">
+          <span class="btn-text">PLAY NOW →</span>
+        </a>
+        <a href="#/games/fast-tap" class="btn btn-neon-ghost btn-hero router-link" data-route="/games/fast-tap">
+          <span class="bolt-icon">⚡</span> Quick Sprint
+        </a>
       </div>
-      <div class="mini-stat">
-        <span class="mini-stat-value" id="home-best-streak">0</span>
-        <span class="mini-stat-label">Best Streak</span>
-      </div>
-      <div class="mini-stat">
-        <span class="mini-stat-value" id="home-highest-level">0</span>
-        <span class="mini-stat-label">Highest Level</span>
-      </div>
-    </div>
-  </section>
 
-  <!-- ============================================================
-       SCREEN: GAMES SELECTION
-  ============================================================ -->
-  <section class="screen" id="games-screen">
-    <h2 class="screen-title">Choose Your Challenge</h2>
-    <p class="screen-subtitle">Four ways to test how far your memory can take you.</p>
-
-    <div class="game-grid">
-
-      <article class="game-card" data-game="sequence">
-        <div class="game-card-icon">◆</div>
-        <h3>Sequence Memory</h3>
-        <p>Watch the sequence carefully and reproduce it in the correct order.</p>
-        <div class="game-card-meta">
-          <span class="diff-pill diff-easy">Easy</span>
-          <span class="diff-pill diff-medium">Medium</span>
-          <span class="diff-pill diff-hard">Hard</span>
+      <!-- Floating Arcade Elements -->
+      <div class="hero-floating-elements" aria-hidden="true">
+        <div class="floating-badge badge-math">
+          <span class="badge-icon">🧮</span>
+          <span class="badge-math-eq">17 × 6 = <span class="neon-cyan">102</span></span>
         </div>
-        <button class="btn btn-secondary play-game-btn" data-game="sequence">Play Game</button>
-      </article>
-
-      <article class="game-card" data-game="match">
-        <div class="game-card-icon">▦</div>
-        <h3>Memory Match</h3>
-        <p>Find matching pairs and clear the board using the fewest mistakes.</p>
-        <div class="game-card-meta">
-          <span class="diff-pill diff-easy">Easy</span>
-          <span class="diff-pill diff-medium">Medium</span>
-          <span class="diff-pill diff-hard">Hard</span>
+        <div class="floating-badge badge-matrix">
+          <div class="mini-matrix-grid">
+            <span class="mini-tile active"></span>
+            <span class="mini-tile"></span>
+            <span class="mini-tile active"></span>
+            <span class="mini-tile"></span>
+          </div>
+          <span>MATRIX L4</span>
         </div>
-        <button class="btn btn-secondary play-game-btn" data-game="match">Play Game</button>
-      </article>
-
-      <article class="game-card" data-game="grid">
-        <div class="game-card-icon">▧</div>
-        <h3>Grid Memory</h3>
-        <p>Memorize the highlighted positions and reproduce the pattern.</p>
-        <div class="game-card-meta">
-          <span class="diff-pill diff-easy">Easy</span>
-          <span class="diff-pill diff-medium">Medium</span>
-          <span class="diff-pill diff-hard">Hard</span>
+        <div class="floating-badge badge-trap">
+          <span class="badge-icon">🪤</span>
+          <span>TRAP: <strong class="neon-pink">DON'T CLICK!</strong></span>
         </div>
-        <button class="btn btn-secondary play-game-btn" data-game="grid">Play Game</button>
-      </article>
-
-      <article class="game-card" data-game="number">
-        <div class="game-card-icon">#</div>
-        <h3>Number Memory</h3>
-        <p>Memorize a number sequence and enter it correctly.</p>
-        <div class="game-card-meta">
-          <span class="diff-pill diff-easy">Easy</span>
-          <span class="diff-pill diff-medium">Medium</span>
-          <span class="diff-pill diff-hard">Hard</span>
-        </div>
-        <button class="btn btn-secondary play-game-btn" data-game="number">Play Game</button>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SCREEN: DIFFICULTY SELECTION
-  ============================================================ -->
-  <section class="screen" id="difficulty-screen">
-    <button class="btn-back" data-nav="games-screen">← Back to Games</button>
-    <h2 class="screen-title" id="difficulty-game-title">Choose Your Challenge</h2>
-    <p class="screen-subtitle">Select a difficulty to begin.</p>
-
-    <div class="difficulty-grid">
-      <button class="difficulty-card" data-difficulty="easy">
-        <h3>Easy</h3>
-        <ul>
-          <li>Relaxed timing</li>
-          <li>Shorter sequences</li>
-          <li>More forgiving gameplay</li>
-        </ul>
-      </button>
-      <button class="difficulty-card" data-difficulty="medium">
-        <h3>Medium</h3>
-        <ul>
-          <li>Balanced challenge</li>
-          <li>Moderate timing</li>
-          <li>Longer sequences</li>
-        </ul>
-      </button>
-      <button class="difficulty-card" data-difficulty="hard">
-        <h3>Hard</h3>
-        <ul>
-          <li>Fast timing</li>
-          <li>Long sequences</li>
-          <li>Higher difficulty</li>
-        </ul>
-      </button>
-    </div>
-
-    <button class="btn btn-primary btn-large" id="start-game-btn" disabled>Start Game</button>
-  </section>
-
-  <!-- ============================================================
-       SCREEN: ACTIVE GAME
-  ============================================================ -->
-  <section class="screen" id="game-screen">
-
-    <div class="game-hud">
-      <div class="hud-top">
-        <div class="hud-title-block">
-          <h2 id="hud-game-name">SEQUENCE MEMORY</h2>
-          <span class="hud-difficulty" id="hud-difficulty">Medium</span>
-        </div>
-        <div class="hud-controls">
-          <button class="btn-icon" id="pause-btn" title="Pause">⏸</button>
-          <button class="btn-icon" id="quit-btn" title="Quit">✕</button>
+        <div class="floating-badge badge-tap">
+          <span class="badge-icon">⚡</span>
+          <span>FAST TAP: <strong class="neon-cyan">380 ms</strong></span>
         </div>
       </div>
 
-      <div class="hud-stats">
-        <div class="hud-stat">
-          <span class="hud-stat-label">Level</span>
-          <span class="hud-stat-value" id="hud-level">1</span>
+      <!-- Quick Platform Stats -->
+      <div class="hero-stats-strip">
+        <div class="stat-strip-item">
+          <span class="stat-strip-icon">🎮</span>
+          <div class="stat-strip-text">
+            <strong>8 Brain Games</strong>
+            <span>5 Core Disciplines</span>
+          </div>
         </div>
-        <div class="hud-stat">
-          <span class="hud-stat-label">Score</span>
-          <span class="hud-stat-value" id="hud-score">0</span>
+        <div class="stat-strip-item">
+          <span class="stat-strip-icon">🧠</span>
+          <div class="stat-strip-text">
+            <strong>Cognitive Training</strong>
+            <span>Recall & Logic Speed</span>
+          </div>
         </div>
-        <div class="hud-stat">
-          <span class="hud-stat-label">Streak</span>
-          <span class="hud-stat-value" id="hud-streak">🔥 0</span>
+        <div class="stat-strip-item">
+          <span class="stat-strip-icon">🏆</span>
+          <div class="stat-strip-text">
+            <strong>Campus Leaderboard</strong>
+            <span>Rank Against Students</span>
+          </div>
         </div>
-        <div class="hud-stat">
-          <span class="hud-stat-label">Time</span>
-          <span class="hud-stat-value" id="hud-timer">00:00</span>
-        </div>
-        <div class="hud-stat">
-          <span class="hud-stat-label">Lives</span>
-          <span class="hud-stat-value" id="hud-lives">♥ ♥ ♥</span>
+        <div class="stat-strip-item">
+          <span class="stat-strip-icon">⚡</span>
+          <div class="stat-strip-text">
+            <strong>Fast Challenges</strong>
+            <span>Under 60s per session</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="game-stage" id="game-stage">
-      <!-- game-specific content is injected here by script.js -->
-    </div>
-
-    <!-- Pause overlay -->
-    <div class="overlay hidden" id="pause-overlay">
-      <div class="overlay-box">
-        <h2>GAME PAUSED</h2>
-        <button class="btn btn-primary" id="resume-btn">Resume</button>
-        <button class="btn btn-secondary" id="quit-from-pause-btn">Quit Game</button>
-      </div>
-    </div>
-
-    <!-- Countdown overlay -->
-    <div class="overlay hidden" id="countdown-overlay">
-      <div class="countdown-number" id="countdown-number">3</div>
-    </div>
-
-    <!-- Feedback toast (Correct! / Wrong! / Level Up!) -->
-    <div class="feedback-toast hidden" id="feedback-toast"></div>
-
-  </section>
-
-  <!-- ============================================================
-       SCREEN: RESULTS
-  ============================================================ -->
-  <section class="screen" id="results-screen">
-    <div class="results-card">
-      <p class="results-heading">GAME COMPLETE</p>
-      <p class="results-message" id="results-message">Great job!</p>
-
-      <div class="results-score">
-        <span id="results-final-score">0</span>
-        <span class="results-score-label">FINAL SCORE</span>
-      </div>
-
-      <div class="results-grid">
-        <div class="results-stat">
-          <span class="results-stat-value" id="results-level">1</span>
-          <span class="results-stat-label">Level</span>
-        </div>
-        <div class="results-stat">
-          <span class="results-stat-value" id="results-accuracy">0%</span>
-          <span class="results-stat-label">Accuracy</span>
-        </div>
-        <div class="results-stat">
-          <span class="results-stat-value" id="results-streak">0</span>
-          <span class="results-stat-label">Best Streak</span>
-        </div>
-        <div class="results-stat">
-          <span class="results-stat-value" id="results-time">00:00</span>
-          <span class="results-stat-label">Time</span>
+    <!-- Home Split Section: Featured Game & Daily Brain Challenge -->
+    <div class="home-showcase-grid">
+      
+      <!-- Featured Game Spotlight -->
+      <div class="showcase-card featured-spotlight">
+        <div class="showcase-badge">FEATURED GAME</div>
+        <div class="spotlight-content">
+          <div class="spotlight-icon">🪤</div>
+          <h3 class="spotlight-title">BRAIN TRAP</h3>
+          <p class="spotlight-desc">
+            Deceptive trick questions designed to catch your fast reflexes off-guard. Reverse psychology, Stroop effects, and tricky logic.
+          </p>
+          <div class="spotlight-meta">
+            <span class="meta-pill">🧠 Trick Question</span>
+            <span class="meta-pill neon-pink">⚠️ High Failure Rate</span>
+          </div>
+          <a href="#/games/brain-trap" class="btn btn-neon-primary router-link" data-route="/games/brain-trap">
+            PLAY BRAIN TRAP →
+          </a>
         </div>
       </div>
 
-      <div class="leaderboard-entry" id="leaderboard-entry-form">
-        <label for="player-name-input">New high score! Add it to the leaderboard:</label>
-        <div class="leaderboard-entry-row">
-          <input type="text" id="player-name-input" maxlength="12" placeholder="YOUR NAME">
-          <button class="btn btn-secondary" id="submit-score-btn">Submit</button>
+      <!-- Daily Brain Challenge -->
+      <div class="showcase-card daily-spotlight">
+        <div class="showcase-badge neon-gold-badge">⚡ DAILY BRAIN CHALLENGE</div>
+        <div class="spotlight-content">
+          <span class="daily-timer-tag" id="home-daily-timer">RESETS IN 05:42:19</span>
+          <h3 class="spotlight-title">QUICK CALC BLITZ</h3>
+          <p class="spotlight-desc">
+            Can you beat today's score? 30 arithmetic equations in 45 seconds. Keep your streak alive to unlock 3.5× combo multiplier.
+          </p>
+          <div class="daily-score-status">
+            <span class="status-lbl">TODAY'S SCORE:</span>
+            <span class="status-val neon-cyan" id="home-daily-score">--</span>
+          </div>
+          <a href="#/games/quick-calc" class="btn btn-neon-cyan router-link" data-route="/games/quick-calc">
+            START CHALLENGE →
+          </a>
         </div>
       </div>
 
-      <div class="results-actions">
-        <button class="btn btn-primary" id="play-again-btn">Play Again</button>
-        <button class="btn btn-secondary" id="choose-another-btn">Choose Another Game</button>
-        <button class="btn btn-secondary" id="view-stats-btn">View Statistics</button>
-        <button class="btn btn-ghost" data-nav="home-screen">Home</button>
-      </div>
     </div>
-  </section>
 
-  <!-- ============================================================
-       SCREEN: STATISTICS
-  ============================================================ -->
-  <section class="screen" id="stats-screen">
-    <h2 class="screen-title">Your Statistics</h2>
-
-    <div class="stats-overview">
-      <div class="stats-overview-card">
-        <span class="stats-overview-value" id="stat-total-games">0</span>
-        <span class="stats-overview-label">Total Games</span>
-      </div>
-      <div class="stats-overview-card">
-        <span class="stats-overview-value" id="stat-best-score">0</span>
-        <span class="stats-overview-label">Best Score</span>
-      </div>
-      <div class="stats-overview-card">
-        <span class="stats-overview-value" id="stat-best-streak">0</span>
-        <span class="stats-overview-label">Best Streak</span>
-      </div>
-      <div class="stats-overview-card">
-        <span class="stats-overview-value" id="stat-highest-level">0</span>
-        <span class="stats-overview-label">Highest Level</span>
-      </div>
-      <div class="stats-overview-card">
-        <span class="stats-overview-value" id="stat-total-time">00:00</span>
-        <span class="stats-overview-label">Total Play Time</span>
+    <!-- Mini Player Stats Preview HUD -->
+    <div class="home-profile-preview">
+      <div class="preview-hud-inner">
+        <div class="hud-mini-left">
+          <div class="mini-avatar">👾</div>
+          <div>
+            <div class="mini-handle-row">
+              <h3 class="mini-handle" id="home-player-handle">CYBER_STUDENT</h3>
+              <span class="mini-lvl-badge" id="home-player-lvl">LVL 12</span>
+            </div>
+            <p class="mini-subtitle">Campus Brain Lab Cadet</p>
+          </div>
+        </div>
+        <div class="hud-mini-stats">
+          <div class="mini-stat-item">
+            <span class="ms-val neon-gold" id="home-best-score">2,840</span>
+            <span class="ms-lbl">PERSONAL BEST</span>
+          </div>
+          <div class="mini-stat-item">
+            <span class="ms-val" id="home-streak">🔥 7 DAYS</span>
+            <span class="ms-lbl">DAILY STREAK</span>
+          </div>
+          <div class="mini-stat-item">
+            <span class="ms-val" id="home-games-played">126</span>
+            <span class="ms-lbl">GAMES PLAYED</span>
+          </div>
+        </div>
+        <a href="#/profile" class="btn btn-neon-ghost router-link" data-route="/profile">
+          VIEW PROFILE →
+        </a>
       </div>
     </div>
 
-    <h3 class="stats-subheading">By Game</h3>
-    <div class="stats-per-game" id="stats-per-game">
-      <!-- filled dynamically by script.js -->
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SCREEN: LEADERBOARD
-  ============================================================ -->
-  <section class="screen" id="leaderboard-screen">
-    <h2 class="screen-title">Local Leaderboard</h2>
-    <p class="screen-subtitle">Scores are stored on this device only — this is not an online leaderboard.</p>
-    <div class="leaderboard-list" id="leaderboard-list">
-      <!-- filled dynamically by script.js -->
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SCREEN: SETTINGS
-  ============================================================ -->
-  <section class="screen" id="settings-screen">
-    <h2 class="screen-title">Settings</h2>
-
-    <div class="settings-list">
-      <div class="settings-row">
+    <!-- Campus Leaderboard Preview Strip -->
+    <div class="home-leaderboard-preview">
+      <div class="hlb-header">
         <div>
+          <span class="section-eyebrow">CAMPUS RIVALS</span>
+          <h2 class="section-heading">🏆 TOP SCORERS THIS WEEK</h2>
+        </div>
+        <a href="#/leaderboard" class="btn btn-neon-ghost router-link" data-route="/leaderboard">
+          FULL LEADERBOARD →
+        </a>
+      </div>
+      <div class="hlb-preview-list" id="home-leaderboard-list">
+        <!-- Rendered dynamically by script.js -->
+      </div>
+    </div>
+
+    <!-- Bottom CTA to Games Page -->
+    <div class="home-bottom-cta">
+      <h3 class="b-cta-title">Ready to benchmark your cognitive limits?</h3>
+      <a href="#/games" class="btn btn-neon-primary btn-large router-link" data-route="/games">
+        EXPLORE ALL 8 GAMES →
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       PAGE 2: GAMES ARCADE PAGE (Route: /games)
+       Dedicated collection of all 8 games with category filters.
+  ============================================================ -->
+  <section class="page" id="page-games" data-route="/games">
+    <div class="arcade-page-header">
+      <span class="section-eyebrow">ARCADIA VAULT</span>
+      <h1 class="page-title">GAME ARCADE</h1>
+      <p class="page-subtitle">Pick a challenge. Test your brain. Master 8 competitive disciplines.</p>
+
+      <!-- Category Filter Tabs -->
+      <div class="category-tabs" role="tablist" aria-label="Game categories">
+        <button class="cat-tab active" data-category="all" role="tab" aria-selected="true">ALL (8)</button>
+        <button class="cat-tab" data-category="memory" role="tab" aria-selected="false">🧠 MEMORY</button>
+        <button class="cat-tab" data-category="calc" role="tab" aria-selected="false">🧮 CALCULATION</button>
+        <button class="cat-tab" data-category="logic" role="tab" aria-selected="false">🧩 LOGIC</button>
+        <button class="cat-tab" data-category="speed" role="tab" aria-selected="false">⚡ SPEED & ATTENTION</button>
+        <button class="cat-tab" data-category="trick" role="tab" aria-selected="false">🪤 TRICK & FOCUS</button>
+      </div>
+    </div>
+
+    <!-- 8 Modern Gaming Cards -->
+    <div class="game-grid" id="arcade-game-grid">
+
+      <!-- GAME 1: MEMORY MATRIX -->
+      <article class="arcade-card" data-game-slug="memory-matrix" data-category="memory">
+        <div class="card-accent-border"></div>
+        <div class="card-inner">
+          <div class="card-top-row">
+            <span class="game-type-pill cat-memory">MEMORY</span>
+            <span class="game-diff-tag">● 3×3 TO 6×6</span>
+          </div>
+          <div class="card-glyph-box glyph-purple">
+            <span class="card-glyph">🧠</span>
+          </div>
+          <h2 class="card-title">MEMORY MATRIX</h2>
+          <p class="card-description">
+            Remember highlighted neon tiles across expanding grids. Preserve 3 lives and chain combos without misclicking.
+          </p>
+          <div class="card-footer-stats">
+            <div class="card-score-box">
+              <span class="cs-label">BEST SCORE</span>
+              <span class="cs-val" data-best-for="matrix">1,240</span>
+            </div>
+            <a href="#/games/memory-matrix" class="btn btn-card-play router-link" data-route="/games/memory-matrix">
+              PLAY NOW →
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- GAME 2: QUICK CALC -->
+      <article class="arcade-card" data-game-slug="quick-calc" data-category="calc">
+        <div class="card-accent-border"></div>
+        <div class="card-inner">
+          <div class="card-top-row">
+            <span class="game-type-pill cat-calc">CALCULATION</span>
+            <span class="game-diff-tag">⚡ 60s BLITZ</span>
+          </div>
+          <div class="card-glyph-box glyph-cyan">
+            <span class="card-glyph">🧮</span>
+          </div>
+          <h2 class="card-title">QUICK CALC</h2>
+          <p class="card-description">
+            High-speed mental math under 60-second timer pressure. Rapid addition, subtraction, multiplication, and division.
+          </p>
+          <div class="card-footer-stats">
+            <div class="card-score-box">
+              <span class="cs-label">BEST SCORE</span>
+              <span class="cs-val" data-best-for="calc">1,890</span>
+            </div>
+            <a href="#/games/quick-calc" class="btn btn-card-play router-link" data-route="/games/quick-calc">
+              PLAY NOW →
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- GAME 3: NUMBER RUSH -->
+      <article class="arcade-card" data-game-slug="number-rush" data-category="speed">
+        <div class="card-accent-border"></div>
+        <div class="card-inner">
+          <div class="card-top-row">
+            <span class="game-type-pill cat-speed">SPEED & RECALL</span>
+            <span class="game-diff-tag">● RAPID STREAM</span>
+          </div>
+          <div class="card-glyph-box glyph-blue">
+            <span class="card-glyph">🔢</span>
+          </div>
+          <h2 class="card-title">NUMBER RUSH</h2>
+          <p class="card-description">
+            Numbers stream across your screen at breakneck speeds. Recall the largest, second, or initial number on demand.
+          </p>
+          <div class="card-footer-stats">
+            <div class="card-score-box">
+              <span class="cs-label">BEST SCORE</span>
+              <span class="cs-val" data-best-for="rush">980</span>
+            </div>
+            <a href="#/games/number-rush" class="btn btn-card-play router-link" data-route="/games/number-rush">
+              PLAY NOW →
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- GAME 4: NUMBER SEQUENCE -->
+      <article class="arcade-card" data-game-slug="number-sequence" data-category="logic">
+        <div class="card-accent-border"></div>
+        <div class="card-inner">
+          <div class="card-top-row">
+            <span class="game-type-pill cat-logic">LOGIC</span>
+            <span class="game-diff-tag">● PATTERNS</span>
+          </div>
+          <div class="card-glyph-box glyph-gold">
+            <span class="card-glyph">📈</span>
+          </div>
+          <h2 class="card-title">NUMBER SEQUENCE</h2>
+          <p class="card-description">
+            Identify arithmetic, geometric, polynomial, and alternating number series. Deduce the missing term before time expires.
+          </p>
+          <div class="card-footer-stats">
+            <div class="card-score-box">
+              <span class="cs-label">BEST SCORE</span>
+              <span class="cs-val" data-best-for="sequence">1,120</span>
+            </div>
+            <a href="#/games/number-sequence" class="btn btn-card-play router-link" data-route="/games/number-sequence">
+              PLAY NOW →
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- GAME 5: LOGIC GRID -->
+      <article class="arcade-card" data-game-slug="logic-grid" data-category="logic">
+        <div class="card-accent-border"></div>
+        <div class="card-inner">
+          <div class="card-top-row">
+            <span class="game-type-pill cat-logic">LOGIC</span>
+            <span class="game-diff-tag">● DEDUCTION</span>
+          </div>
+          <div class="card-glyph-box glyph-purple">
+            <span class="card-glyph">🧩</span>
+          </div>
+          <h2 class="card-title">LOGIC GRID</h2>
+          <p class="card-description">
+            Short, razor-sharp deductive puzzles, syllogisms, and relational sorting. Eliminate false assumptions and decide fast.
+          </p>
+          <div class="card-footer-stats">
+            <div class="card-score-box">
+              <span class="cs-label">BEST SCORE</span>
+              <span class="cs-val" data-best-for="logic">850</span>
+            </div>
+            <a href="#/games/logic-grid" class="btn btn-card-play router-link" data-route="/games/logic-grid">
+              PLAY NOW →
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- GAME 6: PATTERN BREAKER -->
+      <article class="arcade-card" data-game-slug="pattern-breaker" data-category="speed">
+        <div class="card-accent-border"></div>
+        <div class="card-inner">
+          <div class="card-top-row">
+            <span class="game-type-pill cat-speed">ATTENTION</span>
+            <span class="game-diff-tag">● ODD ONE OUT</span>
+          </div>
+          <div class="card-glyph-box glyph-cyan">
+            <span class="card-glyph">🎯</span>
+          </div>
+          <h2 class="card-title">PATTERN BREAKER</h2>
+          <p class="card-description">
+            A dense field of geometric patterns hides one anomalous tile. Spot subtle variations in rotation, shade, and shape.
+          </p>
+          <div class="card-footer-stats">
+            <div class="card-score-box">
+              <span class="cs-label">BEST SCORE</span>
+              <span class="cs-val" data-best-for="breaker">1,410</span>
+            </div>
+            <a href="#/games/pattern-breaker" class="btn btn-card-play router-link" data-route="/games/pattern-breaker">
+              PLAY NOW →
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- GAME 7: FAST TAP (NEW) -->
+      <article class="arcade-card featured-game" data-game-slug="fast-tap" data-category="speed">
+        <div class="card-accent-border"></div>
+        <div class="card-inner">
+          <div class="card-top-row">
+            <span class="game-type-pill cat-speed">SPEED & ATTENTION</span>
+            <span class="game-diff-tag diff-hard">⚡ FRENZY</span>
+          </div>
+          <div class="card-glyph-box glyph-cyan">
+            <span class="card-glyph">⚡</span>
+          </div>
+          <h2 class="card-title">FAST TAP</h2>
+          <p class="card-description">
+            Rapid rule-switching speed tapping! "Tap all blue tiles", "Tap only even numbers", "Tap smiling emojis". Don't hesitate!
+          </p>
+          <div class="card-footer-stats">
+            <div class="card-score-box">
+              <span class="cs-label">BEST SCORE</span>
+              <span class="cs-val" data-best-for="fasttap">1,650</span>
+            </div>
+            <a href="#/games/fast-tap" class="btn btn-card-play router-link" data-route="/games/fast-tap">
+              PLAY NOW →
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- GAME 8: BRAIN TRAP (NEW) -->
+      <article class="arcade-card featured-game" data-game-slug="brain-trap" data-category="trick">
+        <div class="card-accent-border"></div>
+        <div class="card-inner">
+          <div class="card-top-row">
+            <span class="game-type-pill cat-trick">TRICK & FOCUS</span>
+            <span class="game-diff-tag diff-hard">💀 DECEPTIVE</span>
+          </div>
+          <div class="card-glyph-box glyph-red">
+            <span class="card-glyph">🪤</span>
+          </div>
+          <h2 class="card-title">BRAIN TRAP</h2>
+          <p class="card-description">
+            Trick instructions engineered to break your brain. Stroop effects, reverse cues, and deceptive options. Don't fall for the trap!
+          </p>
+          <div class="card-footer-stats">
+            <div class="card-score-box">
+              <span class="cs-label">BEST SCORE</span>
+              <span class="cs-val" data-best-for="braintrap">1,380</span>
+            </div>
+            <a href="#/games/brain-trap" class="btn btn-card-play router-link" data-route="/games/brain-trap">
+              PLAY NOW →
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PAGE 3: DEDICATED GAMEPLAY ARENA (Route: /games/:game-id)
+       Full-focus gaming stage with live HUD & finish modal.
+  ============================================================ -->
+  <section class="page" id="page-arena" data-route="/games/:id">
+    
+    <div class="arena-top-bar">
+      <a href="#/games" class="btn-arena-back router-link" data-route="/games" id="arena-back-btn">
+        <span>←</span> Back to Games
+      </a>
+
+      <div class="arena-title-block">
+        <span class="arena-category-tag" id="arena-cat-tag">MEMORY</span>
+        <h2 class="arena-game-name" id="arena-game-title">MEMORY MATRIX</h2>
+      </div>
+
+      <div class="arena-controls-group">
+        <button class="btn-icon-arena" id="arena-sound-btn" title="Toggle Sound (M)" aria-label="Toggle Sound">🔊</button>
+        <button class="btn-icon-arena" id="arena-restart-btn" title="Restart Game (R)" aria-label="Restart Game">🔄</button>
+        <button class="btn-icon-arena" id="arena-pause-btn" title="Pause Game (P)" aria-label="Pause Game">⏸</button>
+      </div>
+    </div>
+
+    <!-- Arena Live HUD Stats Strip -->
+    <div class="arena-hud-strip">
+      <div class="arena-stat-box" id="hud-score-container">
+        <span class="arena-stat-lbl">SCORE</span>
+        <span class="arena-stat-val neon-gold" id="arena-score">0</span>
+      </div>
+      <div class="arena-stat-box" id="hud-timer-container">
+        <span class="arena-stat-lbl">TIME</span>
+        <span class="arena-stat-val neon-cyan" id="arena-timer">60s</span>
+      </div>
+      <div class="arena-stat-box" id="hud-streak-container">
+        <span class="arena-stat-lbl">STREAK</span>
+        <span class="arena-stat-val" id="arena-streak">🔥 0</span>
+      </div>
+      <div class="arena-stat-box" id="hud-combo-container">
+        <span class="arena-stat-lbl">MULTIPLIER</span>
+        <span class="arena-stat-val neon-purple" id="arena-combo">1.0×</span>
+      </div>
+      <div class="arena-stat-box" id="hud-lives-container">
+        <span class="arena-stat-lbl">LIVES</span>
+        <span class="arena-stat-val neon-pink" id="arena-lives">♥♥♥</span>
+      </div>
+      <div class="arena-stat-box" id="hud-level-container">
+        <span class="arena-stat-lbl">LEVEL</span>
+        <span class="arena-stat-val" id="arena-level">1</span>
+      </div>
+    </div>
+
+    <!-- Live Screen Reader Announcer -->
+    <div id="game-live-announcer" class="sr-only" aria-live="polite"></div>
+
+    <!-- Interactive Game Center Stage -->
+    <div class="arena-center-stage" id="game-stage" tabindex="-1">
+      <!-- Injected dynamically by active game module in script.js -->
+    </div>
+
+    <!-- Pause Overlay -->
+    <div class="overlay hidden" id="pause-overlay" role="dialog" aria-modal="true" aria-labelledby="pause-heading">
+      <div class="overlay-box neon-box">
+        <div class="overlay-icon">⏸</div>
+        <h2 id="pause-heading">GAME PAUSED</h2>
+        <p>Timer and state frozen. Catch your breath, college gamer.</p>
+        <div class="overlay-actions">
+          <button class="btn btn-neon-primary btn-large" id="resume-btn">RESUME →</button>
+          <button class="btn btn-neon-ghost" id="pause-restart-btn">RESTART ↺</button>
+          <a href="#/games" class="btn btn-neon-ghost router-link" data-route="/games">QUIT TO ARCADE</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Universal Victory / Game Over Arcade Modal with Funny Reactions -->
+    <div class="overlay hidden" id="finish-modal" role="dialog" aria-modal="true" aria-labelledby="finish-title">
+      <canvas id="victory-canvas" aria-hidden="true"></canvas>
+      <div class="overlay-box neon-box finish-box">
+        <div class="rank-badge-wrapper">
+          <div class="rank-badge" id="finish-rank">S</div>
+          <span class="rank-label">PERFORMANCE RANK</span>
+        </div>
+
+        <h2 class="finish-title" id="finish-title">ROUND COMPLETE</h2>
+        <p class="finish-subtitle" id="finish-subtitle">Exceptional big brain energy.</p>
+
+        <div class="finish-stats-grid">
+          <div class="f-stat-tile">
+            <span class="f-lbl">FINAL SCORE</span>
+            <span class="f-val neon-gold" id="finish-score">1,840</span>
+          </div>
+          <div class="f-stat-tile">
+            <span class="f-lbl">XP EARNED</span>
+            <span class="f-val neon-purple" id="finish-xp">+240 XP</span>
+          </div>
+          <div class="f-stat-tile">
+            <span class="f-lbl">ACCURACY</span>
+            <span class="f-val neon-cyan" id="finish-accuracy">94%</span>
+          </div>
+          <div class="f-stat-tile">
+            <span class="f-lbl">MAX STREAK</span>
+            <span class="f-val" id="finish-streak">🔥 12</span>
+          </div>
+        </div>
+
+        <div class="finish-actions">
+          <button class="btn btn-neon-primary btn-large" id="finish-play-again-btn">PLAY AGAIN ↺</button>
+          <a href="#/leaderboard" class="btn btn-neon-ghost router-link" data-route="/leaderboard">LEADERBOARD 🏆</a>
+          <a href="#/games" class="btn btn-neon-ghost router-link" data-route="/games">GAMES MENU</a>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       PAGE 4: CAMPUS LEADERBOARD (Route: /leaderboard)
+       Dedicated full-page scoreboard with All / Week / Month filters.
+  ============================================================ -->
+  <section class="page" id="page-leaderboard" data-route="/leaderboard">
+    <div class="leaderboard-page-header">
+      <span class="section-eyebrow">COLLEGIATE DIVISION</span>
+      <h1 class="page-title">🏆 CAMPUS LEADERBOARD</h1>
+      <p class="page-subtitle">Verified high scores from college players across campus. Can you break into the Top 3?</p>
+
+      <div class="lb-timeframe-tabs">
+        <button class="lb-tf-tab active" data-timeframe="all">ALL TIME</button>
+        <button class="lb-tf-tab" data-timeframe="week">THIS WEEK</button>
+        <button class="lb-tf-tab" data-timeframe="month">THIS MONTH</button>
+      </div>
+    </div>
+
+    <div class="leaderboard-full-table-card">
+      <div class="lb-row lb-table-head">
+        <span class="lb-col-rank">RANK</span>
+        <span class="lb-col-player">PLAYER</span>
+        <span class="lb-col-campus">CAMPUS</span>
+        <span class="lb-col-xp">XP</span>
+        <span class="lb-col-score">BEST SCORE</span>
+        <span class="lb-col-games">GAMES</span>
+      </div>
+      <div class="lb-rows-container" id="full-leaderboard-rows">
+        <!-- Rendered dynamically by script.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PAGE 5: GAMING PROFILE HUD (Route: /profile)
+       Player HUD, Level/XP, Game History, and Achievements.
+  ============================================================ -->
+  <section class="page" id="page-profile" data-route="/profile">
+    <div class="profile-page-header">
+      <span class="section-eyebrow">PASSPORT & CREDENTIALS</span>
+      <h1 class="page-title">PLAYER PROFILE</h1>
+      <p class="page-subtitle">Track your cognitive mastery, unlocked achievement badges, and session logs.</p>
+    </div>
+
+    <!-- Main Profile Card -->
+    <div class="profile-hero-card">
+      <div class="ph-avatar-wrap">
+        <span class="ph-avatar-icon">👾</span>
+        <span class="ph-status-indicator"></span>
+      </div>
+      <div class="ph-info">
+        <div class="ph-handle-row">
+          <h2 class="ph-handle" id="profile-handle">CYBER_STUDENT</h2>
+          <span class="ph-rank-tag" id="profile-rank-tag">CAMPUS ELITE</span>
+          <button class="btn btn-sm btn-edit-handle" id="edit-handle-btn" title="Edit Callsign">✎ Edit</button>
+        </div>
+        <p class="ph-meta">Brain Training Cadet · Division I</p>
+        <div class="ph-progress-row">
+          <span class="ph-lvl-num" id="profile-lvl-num">LVL 12</span>
+          <div class="ph-xp-bar-track">
+            <div class="ph-xp-bar-fill" id="profile-xp-fill" style="width: 78%;"></div>
+          </div>
+          <span class="ph-xp-caption" id="profile-xp-caption">4,820 / 5,000 XP</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Metric Tiles -->
+    <div class="profile-stats-grid">
+      <div class="p-tile">
+        <span class="p-val neon-gold" id="prof-best-score">2,840</span>
+        <span class="p-lbl">PERSONAL BEST</span>
+      </div>
+      <div class="p-tile">
+        <span class="p-val" id="prof-streak">🔥 7 DAYS</span>
+        <span class="p-lbl">CURRENT STREAK</span>
+      </div>
+      <div class="p-tile">
+        <span class="p-val" id="prof-total-games">126</span>
+        <span class="p-lbl">GAMES PLAYED</span>
+      </div>
+      <div class="p-tile">
+        <span class="p-val neon-cyan" id="prof-accuracy">92%</span>
+        <span class="p-lbl">LIFETIME ACCURACY</span>
+      </div>
+    </div>
+
+    <!-- Achievements Section -->
+    <div class="profile-section-block">
+      <h3 class="profile-section-title">🏆 ACHIEVEMENTS</h3>
+      <div class="achievements-grid" id="achievements-container">
+        <!-- Rendered dynamically by script.js -->
+      </div>
+    </div>
+
+    <!-- Game History Section -->
+    <div class="profile-section-block">
+      <h3 class="profile-section-title">📜 GAME HISTORY (RECENT SESSIONS)</h3>
+      <div class="history-table-card">
+        <div class="history-head-row">
+          <span>GAME</span>
+          <span>SCORE</span>
+          <span>ACCURACY</span>
+          <span>DATE & TIME</span>
+        </div>
+        <div class="history-rows-wrap" id="history-rows-container">
+          <!-- Rendered dynamically by script.js -->
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       PAGE 6: SETTINGS PAGE (Route: /settings)
+       Audio, animations, dark neon theme, and data reset.
+  ============================================================ -->
+  <section class="page" id="page-settings" data-route="/settings">
+    <div class="settings-page-header">
+      <span class="section-eyebrow">SYSTEM PREFERENCES</span>
+      <h1 class="page-title">SETTINGS</h1>
+      <p class="page-subtitle">Configure audio synthesis, tactile animations, and local storage state.</p>
+    </div>
+
+    <div class="settings-card">
+      
+      <div class="setting-item-row">
+        <div class="setting-desc-group">
           <h3>Sound Effects</h3>
-          <p>Play short tones for correct answers, mistakes, and level ups.</p>
+          <p>Arcade clicks, celebratory dings, combo chimes, and funny fail buzzers.</p>
         </div>
-        <label class="switch">
-          <input type="checkbox" id="setting-sound" checked>
-          <span class="switch-track"></span>
+        <label class="switch" aria-label="Toggle Sound Effects">
+          <input type="checkbox" id="setting-sound-toggle" checked>
+          <span class="switch-slider"></span>
         </label>
       </div>
 
-      <div class="settings-row">
-        <div>
-          <h3>Animations</h3>
-          <p>Enable transition and feedback animations.</p>
+      <div class="setting-item-row">
+        <div class="setting-desc-group">
+          <h3>Animations & 3D Transitions</h3>
+          <p>Neon pulses, smooth page transitions, and victory confetti physics.</p>
         </div>
-        <label class="switch">
-          <input type="checkbox" id="setting-animations" checked>
-          <span class="switch-track"></span>
+        <label class="switch" aria-label="Toggle Animations">
+          <input type="checkbox" id="setting-anim-toggle" checked>
+          <span class="switch-slider"></span>
         </label>
       </div>
 
-      <div class="settings-row settings-row-danger">
-        <div>
-          <h3>Reset Statistics</h3>
-          <p>Permanently erase all saved statistics and leaderboard scores on this device.</p>
+      <div class="setting-item-row">
+        <div class="setting-desc-group">
+          <h3>Visual Theme</h3>
+          <p>Midnight Neon Arcade (Deep Obsidian / Cyan & Electric Purple).</p>
         </div>
-        <button class="btn btn-danger" id="reset-stats-btn">Reset All Data</button>
+        <span class="theme-locked-badge">MIDNIGHT NEON ACTIVE</span>
       </div>
-    </div>
 
-    <!-- Reset confirmation overlay -->
-    <div class="overlay hidden" id="reset-confirm-overlay">
-      <div class="overlay-box">
-        <h2>Reset all statistics?</h2>
-        <p>This will permanently delete your statistics, best scores, and leaderboard. This cannot be undone.</p>
-        <button class="btn btn-danger" id="confirm-reset-btn">Yes, reset everything</button>
-        <button class="btn btn-secondary" id="cancel-reset-btn">Cancel</button>
+      <div class="setting-item-row danger-zone">
+        <div class="setting-desc-group">
+          <h3 class="neon-pink">Reset Game Data</h3>
+          <p>Permanently erase all local XP, game history, and high score records on this device.</p>
+        </div>
+        <button class="btn btn-neon-red" id="reset-data-btn">RESET ALL DATA</button>
       </div>
+
     </div>
   </section>
 
 </main>
+
+<!-- ============================================================
+     MOBILE BOTTOM NAVIGATION BAR
+============================================================ -->
+<nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+  <a href="#/home" class="mobile-nav-item router-link active" data-route="/home">
+    <span class="mob-icon">⌂</span>
+    <span class="mob-label">Home</span>
+  </a>
+  <a href="#/games" class="mobile-nav-item router-link" data-route="/games">
+    <span class="mob-icon">🎮</span>
+    <span class="mob-label">Games</span>
+  </a>
+  <a href="#/leaderboard" class="mobile-nav-item router-link" data-route="/leaderboard">
+    <span class="mob-icon">🏆</span>
+    <span class="mob-label">Ranks</span>
+  </a>
+  <a href="#/profile" class="mobile-nav-item router-link" data-route="/profile">
+    <span class="mob-icon">👤</span>
+    <span class="mob-label">Profile</span>
+  </a>
+  <a href="#/settings" class="mobile-nav-item router-link" data-route="/settings">
+    <span class="mob-icon">⚙</span>
+    <span class="mob-label">Settings</span>
+  </a>
+</nav>
 
 <script src="script.js"></script>
 </body>
