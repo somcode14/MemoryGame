@@ -1,646 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Memory Challenge</title>
-
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory Challenge</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <!-- ================= HEADER ================= -->
+<!-- ============================================================
+     TOP NAVIGATION
+============================================================ -->
+<header class="topnav">
+  <div class="topnav-inner">
+    <button class="brand" data-nav="home-screen">MEMORY<span>CHALLENGE</span></button>
+    <nav class="nav-links">
+      <button class="nav-link" data-nav="home-screen">Home</button>
+      <button class="nav-link" data-nav="games-screen">Games</button>
+      <button class="nav-link" data-nav="stats-screen">Statistics</button>
+      <button class="nav-link" data-nav="leaderboard-screen">Leaderboard</button>
+      <button class="nav-link nav-icon" data-nav="settings-screen" title="Settings" aria-label="Settings">⚙</button>
+    </nav>
+  </div>
+</header>
 
-    <header class="navbar">
+<main id="app">
 
-        <div class="logo">
-            <span class="logo-icon">🧠</span>
-            <span>Memory Challenge</span>
+  <!-- ============================================================
+       SCREEN: HOME
+  ============================================================ -->
+  <section class="screen" id="home-screen">
+    <div class="home-hero">
+      <p class="home-eyebrow">Memory Training Lab</p>
+      <h1 class="home-title">MEMORY<br><span>CHALLENGE</span></h1>
+      <p class="home-tagline">Train your memory. Challenge your mind.</p>
+      <button class="btn btn-primary btn-large" id="start-playing-btn">Start Playing →</button>
+      <p class="home-blurb">Choose a challenge, select your difficulty, and test how far your memory can take you.</p>
+    </div>
+
+    <div class="home-stats">
+      <div class="mini-stat">
+        <span class="mini-stat-value" id="home-games-played">0</span>
+        <span class="mini-stat-label">Games Played</span>
+      </div>
+      <div class="mini-stat">
+        <span class="mini-stat-value" id="home-best-score">0</span>
+        <span class="mini-stat-label">Best Score</span>
+      </div>
+      <div class="mini-stat">
+        <span class="mini-stat-value" id="home-best-streak">0</span>
+        <span class="mini-stat-label">Best Streak</span>
+      </div>
+      <div class="mini-stat">
+        <span class="mini-stat-value" id="home-highest-level">0</span>
+        <span class="mini-stat-label">Highest Level</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SCREEN: GAMES SELECTION
+  ============================================================ -->
+  <section class="screen" id="games-screen">
+    <h2 class="screen-title">Choose Your Challenge</h2>
+    <p class="screen-subtitle">Four ways to test how far your memory can take you.</p>
+
+    <div class="game-grid">
+
+      <article class="game-card" data-game="sequence">
+        <div class="game-card-icon">◆</div>
+        <h3>Sequence Memory</h3>
+        <p>Watch the sequence carefully and reproduce it in the correct order.</p>
+        <div class="game-card-meta">
+          <span class="diff-pill diff-easy">Easy</span>
+          <span class="diff-pill diff-medium">Medium</span>
+          <span class="diff-pill diff-hard">Hard</span>
         </div>
-
-        <nav>
-            <button class="nav-btn active" data-screen="home">Home</button>
-            <button class="nav-btn" data-screen="games">Games</button>
-            <button class="nav-btn" data-screen="stats">Statistics</button>
-            <button class="nav-btn" data-screen="leaderboard">Leaderboard</button>
-        </nav>
-
-    </header>
-
-
-    <!-- ================= MAIN ================= -->
-
-    <main>
-
-        <!-- ========== HOME SCREEN ========== -->
-
-        <section id="home" class="screen active">
-
-            <div class="hero">
-
-                <div class="hero-content">
-
-                    <span class="badge">🧠 TRAIN YOUR BRAIN</span>
-
-                    <h1>
-                        Challenge Your
-                        <span>Memory.</span>
-                    </h1>
-
-                    <p>
-                        Test your memory, improve your focus,
-                        and challenge yourself through interactive
-                        memory games.
-                    </p>
-
-                    <button id="start-playing" class="primary-btn">
-                        Start Playing →
-                    </button>
-
-                </div>
-
-                <div class="hero-visual">
-                    <div class="brain-circle">
-                        🧠
-                    </div>
-                </div>
-
-            </div>
-
-
-            <!-- Player Stats -->
-
-            <div class="stats-row">
-
-                <div class="stat-card">
-                    <span class="stat-icon">🎮</span>
-                    <div>
-                        <p>Games Played</p>
-                        <h3 id="home-games">0</h3>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <span class="stat-icon">🏆</span>
-                    <div>
-                        <p>Best Score</p>
-                        <h3 id="home-score">0</h3>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <span class="stat-icon">🔥</span>
-                    <div>
-                        <p>Best Streak</p>
-                        <h3 id="home-streak">0</h3>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <span class="stat-icon">📈</span>
-                    <div>
-                        <p>Highest Level</p>
-                        <h3 id="home-level">0</h3>
-                    </div>
-                </div>
-
-            </div>
-
-
-            <!-- Game Preview -->
-
-            <div class="section-heading">
-
-                <div>
-                    <span class="small-label">EXPLORE</span>
-                    <h2>Choose Your Challenge</h2>
-                </div>
-
-                <button class="text-btn" data-screen="games">
-                    View All →
-                </button>
-
-            </div>
-
-
-            <div class="game-preview-grid">
-
-                <div class="game-card">
-                    <div class="game-icon">🧩</div>
-                    <h3>Sequence Memory</h3>
-                    <p>
-                        Remember and reproduce the correct sequence.
-                    </p>
-                </div>
-
-                <div class="game-card">
-                    <div class="game-icon">🃏</div>
-                    <h3>Memory Match</h3>
-                    <p>
-                        Find and match all the hidden pairs.
-                    </p>
-                </div>
-
-                <div class="game-card">
-                    <div class="game-icon">🔲</div>
-                    <h3>Grid Memory</h3>
-                    <p>
-                        Remember the highlighted positions.
-                    </p>
-                </div>
-
-                <div class="game-card">
-                    <div class="game-icon">🔢</div>
-                    <h3>Number Memory</h3>
-                    <p>
-                        Remember increasingly difficult numbers.
-                    </p>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ========== GAMES SCREEN ========== -->
-
-        <section id="games" class="screen">
-
-            <div class="page-heading">
-                <span class="small-label">GAME CENTER</span>
-                <h1>Choose Your Challenge</h1>
-                <p>
-                    Select a game and test your memory.
-                </p>
-            </div>
-
-
-            <div class="games-grid">
-
-                <!-- Sequence -->
-
-                <div class="large-game-card">
-
-                    <div class="large-game-icon">🧩</div>
-
-                    <span class="difficulty easy">
-                        EASY → HARD
-                    </span>
-
-                    <h2>Sequence Memory</h2>
-
-                    <p>
-                        Watch the sequence carefully and reproduce
-                        it in the correct order.
-                    </p>
-
-                    <div class="game-info">
-                        <span>🧠 Memory</span>
-                        <span>⚡ Speed</span>
-                    </div>
-
-                    <button class="primary-btn game-select" data-game="sequence">
-                        Play Game →
-                    </button>
-
-                </div>
-
-
-                <!-- Match -->
-
-                <div class="large-game-card">
-
-                    <div class="large-game-icon">🃏</div>
-
-                    <span class="difficulty medium">
-                        EASY → HARD
-                    </span>
-
-                    <h2>Memory Match</h2>
-
-                    <p>
-                        Flip cards and find every matching pair
-                        using the fewest moves.
-                    </p>
-
-                    <div class="game-info">
-                        <span>🃏 Matching</span>
-                        <span>🎯 Focus</span>
-                    </div>
-
-                    <button class="primary-btn game-select" data-game="match">
-                        Play Game →
-                    </button>
-
-                </div>
-
-
-                <!-- Grid -->
-
-                <div class="large-game-card">
-
-                    <div class="large-game-icon">🔲</div>
-
-                    <span class="difficulty hard">
-                        MEDIUM → HARD
-                    </span>
-
-                    <h2>Grid Memory</h2>
-
-                    <p>
-                        Memorize the highlighted cells and select
-                        the same positions afterward.
-                    </p>
-
-                    <div class="game-info">
-                        <span>🔲 Position</span>
-                        <span>🧠 Focus</span>
-                    </div>
-
-                    <button class="primary-btn game-select" data-game="grid">
-                        Play Game →
-                    </button>
-
-                </div>
-
-
-                <!-- Number -->
-
-                <div class="large-game-card">
-
-                    <div class="large-game-icon">🔢</div>
-
-                    <span class="difficulty hard">
-                        MEDIUM → EXPERT
-                    </span>
-
-                    <h2>Number Memory</h2>
-
-                    <p>
-                        Memorize increasingly long numbers before
-                        they disappear.
-                    </p>
-
-                    <div class="game-info">
-                        <span>🔢 Numbers</span>
-                        <span>⚡ Speed</span>
-                    </div>
-
-                    <button class="primary-btn game-select" data-game="number">
-                        Play Game →
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ========== DIFFICULTY SCREEN ========== -->
-
-        <section id="difficulty" class="screen">
-
-            <div class="page-heading">
-
-                <span class="small-label">GAME SETTINGS</span>
-
-                <h1 id="selected-game-title">
-                    Choose Difficulty
-                </h1>
-
-                <p>
-                    Select a difficulty level before starting.
-                </p>
-
-            </div>
-
-
-            <div class="difficulty-grid">
-
-                <button class="difficulty-card" data-difficulty="easy">
-
-                    <span>🟢</span>
-
-                    <h2>Easy</h2>
-
-                    <p>
-                        More time and fewer objects.
-                        Perfect for beginners.
-                    </p>
-
-                </button>
-
-
-                <button class="difficulty-card" data-difficulty="medium">
-
-                    <span>🟡</span>
-
-                    <h2>Medium</h2>
-
-                    <p>
-                        Balanced challenge for regular players.
-                    </p>
-
-                </button>
-
-
-                <button class="difficulty-card" data-difficulty="hard">
-
-                    <span>🔴</span>
-
-                    <h2>Hard</h2>
-
-                    <p>
-                        Less time and more difficult challenges.
-                    </p>
-
-                </button>
-
-            </div>
-
-
-            <div class="center-actions">
-
-                <button class="secondary-btn" data-screen="games">
-                    ← Back
-                </button>
-
-                <button id="difficulty-start" class="primary-btn">
-                    Start Game →
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- ========== GAME SCREEN ========== -->
-
-        <section id="game" class="screen">
-
-            <div class="game-header">
-
-                <button id="quit-game" class="secondary-btn">
-                    ← Quit
-                </button>
-
-                <div class="game-title">
-                    <span id="game-name">Memory Game</span>
-                    <small id="game-difficulty">Medium</small>
-                </div>
-
-                <button id="pause-game" class="secondary-btn">
-                    ⏸ Pause
-                </button>
-
-            </div>
-
-
-            <div class="game-stats">
-
-                <div>
-                    <span>LEVEL</span>
-                    <strong id="game-level">1</strong>
-                </div>
-
-                <div>
-                    <span>SCORE</span>
-                    <strong id="game-score">0</strong>
-                </div>
-
-                <div>
-                    <span>STREAK</span>
-                    <strong id="game-streak">0 🔥</strong>
-                </div>
-
-                <div>
-                    <span>LIVES</span>
-                    <strong id="game-lives">❤️ ❤️ ❤️</strong>
-                </div>
-
-            </div>
-
-
-            <div class="game-container">
-
-                <div id="game-instruction">
-                    Get ready...
-                </div>
-
-                <div id="game-area">
-                    <div id="sequence-game"></div>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ========== RESULTS SCREEN ========== -->
-
-        <section id="results" class="screen">
-
-            <div class="results-container">
-
-                <span class="result-icon">🎉</span>
-
-                <span class="small-label">GAME COMPLETE</span>
-
-                <h1>Great Job!</h1>
-
-                <p id="result-message">
-                    You completed the challenge.
-                </p>
-
-
-                <div class="final-score">
-
-                    <span>FINAL SCORE</span>
-
-                    <strong id="final-score">
-                        0
-                    </strong>
-
-                </div>
-
-
-                <div class="result-stats">
-
-                    <div>
-                        <span>LEVEL</span>
-                        <strong id="result-level">0</strong>
-                    </div>
-
-                    <div>
-                        <span>ACCURACY</span>
-                        <strong id="result-accuracy">0%</strong>
-                    </div>
-
-                    <div>
-                        <span>STREAK</span>
-                        <strong id="result-streak">0</strong>
-                    </div>
-
-                    <div>
-                        <span>TIME</span>
-                        <strong id="result-time">0s</strong>
-                    </div>
-
-                </div>
-
-
-                <div class="result-actions">
-
-                    <button id="play-again" class="primary-btn">
-                        Play Again →
-                    </button>
-
-                    <button class="secondary-btn" data-screen="games">
-                        Choose Another Game
-                    </button>
-
-                    <button class="secondary-btn" data-screen="home">
-                        Back to Home
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ========== STATISTICS SCREEN ========== -->
-
-        <section id="stats" class="screen">
-
-            <div class="page-heading">
-
-                <span class="small-label">YOUR PERFORMANCE</span>
-
-                <h1>Statistics</h1>
-
-                <p>
-                    Track your memory performance over time.
-                </p>
-
-            </div>
-
-
-            <div class="stats-dashboard">
-
-                <div class="big-stat">
-                    <span>🎮</span>
-                    <p>Games Played</p>
-                    <strong id="stats-games">0</strong>
-                </div>
-
-                <div class="big-stat">
-                    <span>🏆</span>
-                    <p>Total Score</p>
-                    <strong id="stats-score">0</strong>
-                </div>
-
-                <div class="big-stat">
-                    <span>🔥</span>
-                    <p>Best Streak</p>
-                    <strong id="stats-streak">0</strong>
-                </div>
-
-                <div class="big-stat">
-                    <span>📈</span>
-                    <p>Highest Level</p>
-                    <strong id="stats-level">0</strong>
-                </div>
-
-            </div>
-
-
-            <div class="performance-section">
-
-                <h2>Game Performance</h2>
-
-                <div class="performance-list">
-
-                    <div class="performance-item">
-                        <span>🧩 Sequence Memory</span>
-                        <strong id="sequence-accuracy">0%</strong>
-                    </div>
-
-                    <div class="performance-item">
-                        <span>🃏 Memory Match</span>
-                        <strong id="match-accuracy">0%</strong>
-                    </div>
-
-                    <div class="performance-item">
-                        <span>🔲 Grid Memory</span>
-                        <strong id="grid-accuracy">0%</strong>
-                    </div>
-
-                    <div class="performance-item">
-                        <span>🔢 Number Memory</span>
-                        <strong id="number-accuracy">0%</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ========== LEADERBOARD SCREEN ========== -->
-
-        <section id="leaderboard" class="screen">
-
-            <div class="page-heading">
-
-                <span class="small-label">TOP PLAYERS</span>
-
-                <h1>Leaderboard</h1>
-
-                <p>
-                    See the highest scores recorded on this device.
-                </p>
-
-            </div>
-
-
-            <div class="leaderboard">
-
-                <div class="leaderboard-header">
-                    <span>Rank</span>
-                    <span>Player</span>
-                    <span>Score</span>
-                </div>
-
-                <div id="leaderboard-list">
-
-                    <div class="empty-leaderboard">
-                        🏆
-                        <p>
-                            No scores yet.
-                            Play a game to enter the leaderboard.
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- ================= JAVASCRIPT ================= -->
-
-    <script src="script.js"></script>
-
+        <button class="btn btn-secondary play-game-btn" data-game="sequence">Play Game</button>
+      </article>
+
+      <article class="game-card" data-game="match">
+        <div class="game-card-icon">▦</div>
+        <h3>Memory Match</h3>
+        <p>Find matching pairs and clear the board using the fewest mistakes.</p>
+        <div class="game-card-meta">
+          <span class="diff-pill diff-easy">Easy</span>
+          <span class="diff-pill diff-medium">Medium</span>
+          <span class="diff-pill diff-hard">Hard</span>
+        </div>
+        <button class="btn btn-secondary play-game-btn" data-game="match">Play Game</button>
+      </article>
+
+      <article class="game-card" data-game="grid">
+        <div class="game-card-icon">▧</div>
+        <h3>Grid Memory</h3>
+        <p>Memorize the highlighted positions and reproduce the pattern.</p>
+        <div class="game-card-meta">
+          <span class="diff-pill diff-easy">Easy</span>
+          <span class="diff-pill diff-medium">Medium</span>
+          <span class="diff-pill diff-hard">Hard</span>
+        </div>
+        <button class="btn btn-secondary play-game-btn" data-game="grid">Play Game</button>
+      </article>
+
+      <article class="game-card" data-game="number">
+        <div class="game-card-icon">#</div>
+        <h3>Number Memory</h3>
+        <p>Memorize a number sequence and enter it correctly.</p>
+        <div class="game-card-meta">
+          <span class="diff-pill diff-easy">Easy</span>
+          <span class="diff-pill diff-medium">Medium</span>
+          <span class="diff-pill diff-hard">Hard</span>
+        </div>
+        <button class="btn btn-secondary play-game-btn" data-game="number">Play Game</button>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SCREEN: DIFFICULTY SELECTION
+  ============================================================ -->
+  <section class="screen" id="difficulty-screen">
+    <button class="btn-back" data-nav="games-screen">← Back to Games</button>
+    <h2 class="screen-title" id="difficulty-game-title">Choose Your Challenge</h2>
+    <p class="screen-subtitle">Select a difficulty to begin.</p>
+
+    <div class="difficulty-grid">
+      <button class="difficulty-card" data-difficulty="easy">
+        <h3>Easy</h3>
+        <ul>
+          <li>Relaxed timing</li>
+          <li>Shorter sequences</li>
+          <li>More forgiving gameplay</li>
+        </ul>
+      </button>
+      <button class="difficulty-card" data-difficulty="medium">
+        <h3>Medium</h3>
+        <ul>
+          <li>Balanced challenge</li>
+          <li>Moderate timing</li>
+          <li>Longer sequences</li>
+        </ul>
+      </button>
+      <button class="difficulty-card" data-difficulty="hard">
+        <h3>Hard</h3>
+        <ul>
+          <li>Fast timing</li>
+          <li>Long sequences</li>
+          <li>Higher difficulty</li>
+        </ul>
+      </button>
+    </div>
+
+    <button class="btn btn-primary btn-large" id="start-game-btn" disabled>Start Game</button>
+  </section>
+
+  <!-- ============================================================
+       SCREEN: ACTIVE GAME
+  ============================================================ -->
+  <section class="screen" id="game-screen">
+
+    <div class="game-hud">
+      <div class="hud-top">
+        <div class="hud-title-block">
+          <h2 id="hud-game-name">SEQUENCE MEMORY</h2>
+          <span class="hud-difficulty" id="hud-difficulty">Medium</span>
+        </div>
+        <div class="hud-controls">
+          <button class="btn-icon" id="pause-btn" title="Pause">⏸</button>
+          <button class="btn-icon" id="quit-btn" title="Quit">✕</button>
+        </div>
+      </div>
+
+      <div class="hud-stats">
+        <div class="hud-stat">
+          <span class="hud-stat-label">Level</span>
+          <span class="hud-stat-value" id="hud-level">1</span>
+        </div>
+        <div class="hud-stat">
+          <span class="hud-stat-label">Score</span>
+          <span class="hud-stat-value" id="hud-score">0</span>
+        </div>
+        <div class="hud-stat">
+          <span class="hud-stat-label">Streak</span>
+          <span class="hud-stat-value" id="hud-streak">🔥 0</span>
+        </div>
+        <div class="hud-stat">
+          <span class="hud-stat-label">Time</span>
+          <span class="hud-stat-value" id="hud-timer">00:00</span>
+        </div>
+        <div class="hud-stat">
+          <span class="hud-stat-label">Lives</span>
+          <span class="hud-stat-value" id="hud-lives">♥ ♥ ♥</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-stage" id="game-stage">
+      <!-- game-specific content is injected here by script.js -->
+    </div>
+
+    <!-- Pause overlay -->
+    <div class="overlay hidden" id="pause-overlay">
+      <div class="overlay-box">
+        <h2>GAME PAUSED</h2>
+        <button class="btn btn-primary" id="resume-btn">Resume</button>
+        <button class="btn btn-secondary" id="quit-from-pause-btn">Quit Game</button>
+      </div>
+    </div>
+
+    <!-- Countdown overlay -->
+    <div class="overlay hidden" id="countdown-overlay">
+      <div class="countdown-number" id="countdown-number">3</div>
+    </div>
+
+    <!-- Feedback toast (Correct! / Wrong! / Level Up!) -->
+    <div class="feedback-toast hidden" id="feedback-toast"></div>
+
+  </section>
+
+  <!-- ============================================================
+       SCREEN: RESULTS
+  ============================================================ -->
+  <section class="screen" id="results-screen">
+    <div class="results-card">
+      <p class="results-heading">GAME COMPLETE</p>
+      <p class="results-message" id="results-message">Great job!</p>
+
+      <div class="results-score">
+        <span id="results-final-score">0</span>
+        <span class="results-score-label">FINAL SCORE</span>
+      </div>
+
+      <div class="results-grid">
+        <div class="results-stat">
+          <span class="results-stat-value" id="results-level">1</span>
+          <span class="results-stat-label">Level</span>
+        </div>
+        <div class="results-stat">
+          <span class="results-stat-value" id="results-accuracy">0%</span>
+          <span class="results-stat-label">Accuracy</span>
+        </div>
+        <div class="results-stat">
+          <span class="results-stat-value" id="results-streak">0</span>
+          <span class="results-stat-label">Best Streak</span>
+        </div>
+        <div class="results-stat">
+          <span class="results-stat-value" id="results-time">00:00</span>
+          <span class="results-stat-label">Time</span>
+        </div>
+      </div>
+
+      <div class="leaderboard-entry" id="leaderboard-entry-form">
+        <label for="player-name-input">New high score! Add it to the leaderboard:</label>
+        <div class="leaderboard-entry-row">
+          <input type="text" id="player-name-input" maxlength="12" placeholder="YOUR NAME">
+          <button class="btn btn-secondary" id="submit-score-btn">Submit</button>
+        </div>
+      </div>
+
+      <div class="results-actions">
+        <button class="btn btn-primary" id="play-again-btn">Play Again</button>
+        <button class="btn btn-secondary" id="choose-another-btn">Choose Another Game</button>
+        <button class="btn btn-secondary" id="view-stats-btn">View Statistics</button>
+        <button class="btn btn-ghost" data-nav="home-screen">Home</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SCREEN: STATISTICS
+  ============================================================ -->
+  <section class="screen" id="stats-screen">
+    <h2 class="screen-title">Your Statistics</h2>
+
+    <div class="stats-overview">
+      <div class="stats-overview-card">
+        <span class="stats-overview-value" id="stat-total-games">0</span>
+        <span class="stats-overview-label">Total Games</span>
+      </div>
+      <div class="stats-overview-card">
+        <span class="stats-overview-value" id="stat-best-score">0</span>
+        <span class="stats-overview-label">Best Score</span>
+      </div>
+      <div class="stats-overview-card">
+        <span class="stats-overview-value" id="stat-best-streak">0</span>
+        <span class="stats-overview-label">Best Streak</span>
+      </div>
+      <div class="stats-overview-card">
+        <span class="stats-overview-value" id="stat-highest-level">0</span>
+        <span class="stats-overview-label">Highest Level</span>
+      </div>
+      <div class="stats-overview-card">
+        <span class="stats-overview-value" id="stat-total-time">00:00</span>
+        <span class="stats-overview-label">Total Play Time</span>
+      </div>
+    </div>
+
+    <h3 class="stats-subheading">By Game</h3>
+    <div class="stats-per-game" id="stats-per-game">
+      <!-- filled dynamically by script.js -->
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SCREEN: LEADERBOARD
+  ============================================================ -->
+  <section class="screen" id="leaderboard-screen">
+    <h2 class="screen-title">Local Leaderboard</h2>
+    <p class="screen-subtitle">Scores are stored on this device only — this is not an online leaderboard.</p>
+    <div class="leaderboard-list" id="leaderboard-list">
+      <!-- filled dynamically by script.js -->
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SCREEN: SETTINGS
+  ============================================================ -->
+  <section class="screen" id="settings-screen">
+    <h2 class="screen-title">Settings</h2>
+
+    <div class="settings-list">
+      <div class="settings-row">
+        <div>
+          <h3>Sound Effects</h3>
+          <p>Play short tones for correct answers, mistakes, and level ups.</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="setting-sound" checked>
+          <span class="switch-track"></span>
+        </label>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <h3>Animations</h3>
+          <p>Enable transition and feedback animations.</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="setting-animations" checked>
+          <span class="switch-track"></span>
+        </label>
+      </div>
+
+      <div class="settings-row settings-row-danger">
+        <div>
+          <h3>Reset Statistics</h3>
+          <p>Permanently erase all saved statistics and leaderboard scores on this device.</p>
+        </div>
+        <button class="btn btn-danger" id="reset-stats-btn">Reset All Data</button>
+      </div>
+    </div>
+
+    <!-- Reset confirmation overlay -->
+    <div class="overlay hidden" id="reset-confirm-overlay">
+      <div class="overlay-box">
+        <h2>Reset all statistics?</h2>
+        <p>This will permanently delete your statistics, best scores, and leaderboard. This cannot be undone.</p>
+        <button class="btn btn-danger" id="confirm-reset-btn">Yes, reset everything</button>
+        <button class="btn btn-secondary" id="cancel-reset-btn">Cancel</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
 </body>
-
 </html>
