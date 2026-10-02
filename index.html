@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BRAINBYTE — Midnight Neon Brain Arcade</title>
 <meta name="description" content="A premium, immersive brain-gaming platform for college students (18+). Fast games, sharp thinking, high-stakes campus leaderboards, and funny feedback.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
@@ -24,7 +27,7 @@
   <div class="topnav-inner">
     <a href="#/home" class="brand router-link" data-route="/home" aria-label="BRAINBYTE Home">
       <div class="brand-logo-mark">
-        <span class="logo-core">⚡</span>
+        <img src="favicon.svg" alt="BRAINBYTE Logo" class="brand-logo-img">
       </div>
       <div class="brand-text-group">
         <span class="brand-name">BRAIN<span class="neon-cyan">BYTE</span></span>
@@ -36,7 +39,6 @@
       <a href="#/home" class="nav-link router-link active" data-route="/home">Home</a>
       <a href="#/games" class="nav-link router-link" data-route="/games">Games</a>
       <a href="#/leaderboard" class="nav-link router-link" data-route="/leaderboard">Leaderboard</a>
-      <a href="#/profile" class="nav-link router-link" data-route="/profile">Profile</a>
       <a href="#/settings" class="nav-link router-link" data-route="/settings">Settings</a>
       <button class="nav-icon-btn sound-toggle-btn" id="nav-sound-btn" title="Toggle Sound (M)" aria-label="Toggle Sound">
         <span class="sound-wave-icon">🔊</span>
@@ -63,6 +65,10 @@
     
     <!-- Hero Section -->
     <div class="hero-section">
+      <div class="hero-logo-emblem" aria-hidden="true">
+        <img src="favicon.svg" alt="BRAINBYTE Neon Logo" class="hero-logo-img">
+      </div>
+
       <div class="hero-badge">
         <span class="pulsing-dot"></span>
         <span class="badge-text">COMPETITIVE BRAIN ARCADE · FOR COLLEGE GAMERS (18+)</span>
@@ -194,31 +200,29 @@
           <div class="mini-avatar">👾</div>
           <div>
             <div class="mini-handle-row">
-              <h3 class="mini-handle" id="home-player-handle">CYBER_STUDENT</h3>
-              <span class="mini-lvl-badge" id="home-player-lvl">LVL 12</span>
+              <h3 class="mini-handle" id="home-player-handle">PLAYER_1</h3>
+              <span class="mini-lvl-badge" id="home-player-lvl">LVL 1</span>
             </div>
             <p class="mini-subtitle">Campus Brain Lab Cadet</p>
           </div>
         </div>
         <div class="hud-mini-stats">
           <div class="mini-stat-item">
-            <span class="ms-val neon-gold" id="home-best-score">2,840</span>
+            <span class="ms-val neon-gold" id="home-best-score">--</span>
             <span class="ms-lbl">PERSONAL BEST</span>
           </div>
           <div class="mini-stat-item">
-            <span class="ms-val" id="home-streak">🔥 7 DAYS</span>
+            <span class="ms-val" id="home-streak">🔥 0 DAYS</span>
             <span class="ms-lbl">DAILY STREAK</span>
           </div>
           <div class="mini-stat-item">
-            <span class="ms-val" id="home-games-played">126</span>
+            <span class="ms-val" id="home-games-played">0</span>
             <span class="ms-lbl">GAMES PLAYED</span>
           </div>
         </div>
-        <a href="#/profile" class="btn btn-neon-ghost router-link" data-route="/profile">
-          VIEW PROFILE →
-        </a>
       </div>
     </div>
+
 
     <!-- Campus Leaderboard Preview Strip -->
     <div class="home-leaderboard-preview">
@@ -288,7 +292,7 @@
           <div class="card-footer-stats">
             <div class="card-score-box">
               <span class="cs-label">BEST SCORE</span>
-              <span class="cs-val" data-best-for="matrix">1,240</span>
+              <span class="cs-val" data-best-for="matrix">--</span>
             </div>
             <a href="#/games/memory-matrix" class="btn btn-card-play router-link" data-route="/games/memory-matrix">
               PLAY NOW →
@@ -315,7 +319,7 @@
           <div class="card-footer-stats">
             <div class="card-score-box">
               <span class="cs-label">BEST SCORE</span>
-              <span class="cs-val" data-best-for="calc">1,890</span>
+              <span class="cs-val" data-best-for="calc">--</span>
             </div>
             <a href="#/games/quick-calc" class="btn btn-card-play router-link" data-route="/games/quick-calc">
               PLAY NOW →
@@ -342,7 +346,7 @@
           <div class="card-footer-stats">
             <div class="card-score-box">
               <span class="cs-label">BEST SCORE</span>
-              <span class="cs-val" data-best-for="rush">980</span>
+              <span class="cs-val" data-best-for="rush">--</span>
             </div>
             <a href="#/games/number-rush" class="btn btn-card-play router-link" data-route="/games/number-rush">
               PLAY NOW →
@@ -369,7 +373,7 @@
           <div class="card-footer-stats">
             <div class="card-score-box">
               <span class="cs-label">BEST SCORE</span>
-              <span class="cs-val" data-best-for="sequence">1,120</span>
+              <span class="cs-val" data-best-for="sequence">--</span>
             </div>
             <a href="#/games/number-sequence" class="btn btn-card-play router-link" data-route="/games/number-sequence">
               PLAY NOW →
@@ -396,7 +400,7 @@
           <div class="card-footer-stats">
             <div class="card-score-box">
               <span class="cs-label">BEST SCORE</span>
-              <span class="cs-val" data-best-for="logic">850</span>
+              <span class="cs-val" data-best-for="logic">--</span>
             </div>
             <a href="#/games/logic-grid" class="btn btn-card-play router-link" data-route="/games/logic-grid">
               PLAY NOW →
@@ -423,7 +427,7 @@
           <div class="card-footer-stats">
             <div class="card-score-box">
               <span class="cs-label">BEST SCORE</span>
-              <span class="cs-val" data-best-for="breaker">1,410</span>
+              <span class="cs-val" data-best-for="breaker">--</span>
             </div>
             <a href="#/games/pattern-breaker" class="btn btn-card-play router-link" data-route="/games/pattern-breaker">
               PLAY NOW →
@@ -450,7 +454,7 @@
           <div class="card-footer-stats">
             <div class="card-score-box">
               <span class="cs-label">BEST SCORE</span>
-              <span class="cs-val" data-best-for="fasttap">1,650</span>
+              <span class="cs-val" data-best-for="fasttap">--</span>
             </div>
             <a href="#/games/fast-tap" class="btn btn-card-play router-link" data-route="/games/fast-tap">
               PLAY NOW →
@@ -477,7 +481,7 @@
           <div class="card-footer-stats">
             <div class="card-score-box">
               <span class="cs-label">BEST SCORE</span>
-              <span class="cs-val" data-best-for="braintrap">1,380</span>
+              <span class="cs-val" data-best-for="braintrap">--</span>
             </div>
             <a href="#/games/brain-trap" class="btn btn-card-play router-link" data-route="/games/brain-trap">
               PLAY NOW →
@@ -635,85 +639,6 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       PAGE 5: GAMING PROFILE HUD (Route: /profile)
-       Player HUD, Level/XP, Game History, and Achievements.
-  ============================================================ -->
-  <section class="page" id="page-profile" data-route="/profile">
-    <div class="profile-page-header">
-      <span class="section-eyebrow">PASSPORT & CREDENTIALS</span>
-      <h1 class="page-title">PLAYER PROFILE</h1>
-      <p class="page-subtitle">Track your cognitive mastery, unlocked achievement badges, and session logs.</p>
-    </div>
-
-    <!-- Main Profile Card -->
-    <div class="profile-hero-card">
-      <div class="ph-avatar-wrap">
-        <span class="ph-avatar-icon">👾</span>
-        <span class="ph-status-indicator"></span>
-      </div>
-      <div class="ph-info">
-        <div class="ph-handle-row">
-          <h2 class="ph-handle" id="profile-handle">CYBER_STUDENT</h2>
-          <span class="ph-rank-tag" id="profile-rank-tag">CAMPUS ELITE</span>
-          <button class="btn btn-sm btn-edit-handle" id="edit-handle-btn" title="Edit Callsign">✎ Edit</button>
-        </div>
-        <p class="ph-meta">Brain Training Cadet · Division I</p>
-        <div class="ph-progress-row">
-          <span class="ph-lvl-num" id="profile-lvl-num">LVL 12</span>
-          <div class="ph-xp-bar-track">
-            <div class="ph-xp-bar-fill" id="profile-xp-fill" style="width: 78%;"></div>
-          </div>
-          <span class="ph-xp-caption" id="profile-xp-caption">4,820 / 5,000 XP</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Profile Metric Tiles -->
-    <div class="profile-stats-grid">
-      <div class="p-tile">
-        <span class="p-val neon-gold" id="prof-best-score">2,840</span>
-        <span class="p-lbl">PERSONAL BEST</span>
-      </div>
-      <div class="p-tile">
-        <span class="p-val" id="prof-streak">🔥 7 DAYS</span>
-        <span class="p-lbl">CURRENT STREAK</span>
-      </div>
-      <div class="p-tile">
-        <span class="p-val" id="prof-total-games">126</span>
-        <span class="p-lbl">GAMES PLAYED</span>
-      </div>
-      <div class="p-tile">
-        <span class="p-val neon-cyan" id="prof-accuracy">92%</span>
-        <span class="p-lbl">LIFETIME ACCURACY</span>
-      </div>
-    </div>
-
-    <!-- Achievements Section -->
-    <div class="profile-section-block">
-      <h3 class="profile-section-title">🏆 ACHIEVEMENTS</h3>
-      <div class="achievements-grid" id="achievements-container">
-        <!-- Rendered dynamically by script.js -->
-      </div>
-    </div>
-
-    <!-- Game History Section -->
-    <div class="profile-section-block">
-      <h3 class="profile-section-title">📜 GAME HISTORY (RECENT SESSIONS)</h3>
-      <div class="history-table-card">
-        <div class="history-head-row">
-          <span>GAME</span>
-          <span>SCORE</span>
-          <span>ACCURACY</span>
-          <span>DATE & TIME</span>
-        </div>
-        <div class="history-rows-wrap" id="history-rows-container">
-          <!-- Rendered dynamically by script.js -->
-        </div>
-      </div>
-    </div>
-
-  </section>
 
   <!-- ============================================================
        PAGE 6: SETTINGS PAGE (Route: /settings)
@@ -786,10 +711,6 @@
   <a href="#/leaderboard" class="mobile-nav-item router-link" data-route="/leaderboard">
     <span class="mob-icon">🏆</span>
     <span class="mob-label">Ranks</span>
-  </a>
-  <a href="#/profile" class="mobile-nav-item router-link" data-route="/profile">
-    <span class="mob-icon">👤</span>
-    <span class="mob-label">Profile</span>
   </a>
   <a href="#/settings" class="mobile-nav-item router-link" data-route="/settings">
     <span class="mob-icon">⚙</span>
