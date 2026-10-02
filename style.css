@@ -211,6 +211,15 @@ a {
   justify-content: center;
   font-size: 1.25rem;
   box-shadow: 0 0 15px rgba(0, 245, 255, 0.4);
+  padding: 5px;
+}
+
+.brand-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 6px var(--neon-cyan));
 }
 
 .brand-text-group {
@@ -495,6 +504,25 @@ a {
   max-width: 860px;
   margin: 0 auto;
   position: relative;
+}
+
+.hero-logo-emblem {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.hero-logo-img {
+  width: 82px;
+  height: 82px;
+  filter: drop-shadow(0 0 25px rgba(0, 245, 255, 0.75)) drop-shadow(0 0 45px rgba(168, 85, 247, 0.5));
+  animation: logoFloatPulse 3.5s ease-in-out infinite alternate;
+  user-select: none;
+}
+
+@keyframes logoFloatPulse {
+  0% { transform: translateY(0px) scale(0.97); filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.5)); }
+  100% { transform: translateY(-8px) scale(1.04); filter: drop-shadow(0 0 35px rgba(0, 245, 255, 0.85)) drop-shadow(0 0 55px rgba(168, 85, 247, 0.65)); }
 }
 
 .hero-badge {

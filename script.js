@@ -22,10 +22,10 @@
    ========================================================================== */
 
 const STORAGE_KEYS = {
-  PROFILE: 'bb_profile_v2',
-  LEADERBOARD: 'bb_campus_leaderboard_v2',
-  SETTINGS: 'bb_settings_v2',
-  DAILY: 'bb_daily_v2'
+  PROFILE: 'bb_profile_clean',
+  LEADERBOARD: 'bb_campus_leaderboard_clean',
+  SETTINGS: 'bb_settings_clean',
+  DAILY: 'bb_daily_clean'
 };
 
 const GAME_METADATA = {
@@ -50,17 +50,8 @@ const SLUG_TO_GAME_ID = {
   'brain-trap':      'braintrap'
 };
 
-/* Seeded Collegiate Campus Leaderboard */
-const DEFAULT_LEADERBOARD = [
-  { rank: 1, name: 'ALEX_V',    campus: 'MIT',          xp: 6420, score: 2840, games: 154, isUser: false },
-  { rank: 2, name: 'SAM_K',     campus: 'Stanford',     xp: 5910, score: 2710, games: 142, isUser: false },
-  { rank: 3, name: 'RIYA_M',    campus: 'Waterloo',     xp: 5350, score: 2490, games: 128, isUser: false },
-  { rank: 4, name: 'YOU',       campus: 'Campus Lab',   xp: 4820, score: 2310, games: 126, isUser: true },
-  { rank: 5, name: 'CYBER_NEO', campus: 'UC Berkeley',  xp: 4500, score: 2180, games: 110, isUser: false },
-  { rank: 6, name: 'JORDAN_T',  campus: 'UT Austin',    xp: 4120, score: 1960, games: 98,  isUser: false },
-  { rank: 7, name: 'ELENA_P',   campus: 'Oxford',       xp: 3890, score: 1820, games: 85,  isUser: false },
-  { rank: 8, name: 'CHRIS_D',   campus: 'Georgia Tech', xp: 3640, score: 1740, games: 79,  isUser: false }
-];
+/* Real Campus Leaderboard (Initially empty, populated by actual gameplay) */
+const DEFAULT_LEADERBOARD = [];
 
 /* Funny Feedback Voice Engine */
 const FUNNY_FEEDBACK = {
@@ -259,7 +250,7 @@ class SoundManager {
   }
 
   playGameOver() {
-    // Funny Cartoon Sad Trombone (Wah-Wah-Wah-Waaah)
+    // Cartoon Sad Trombone (Wah-Wah-Wah-Waaah)
     if (!this.canPlay()) return;
     try {
       const notes = [349.23, 329.63, 311.13, 293.66]; // F4, E4, Eb4, D4
@@ -270,7 +261,6 @@ class SoundManager {
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(freq, now);
         if (idx === 3) {
-          // Slide down on final note
           osc.frequency.exponentialRampToValueAtTime(240, now + 0.45);
         }
         gain.gain.setValueAtTime(0.08, now);
@@ -341,6 +331,7 @@ function initializeApp() {
   updateProfileViews();
   updateBestScoresOnCards();
   checkDailyStatus();
+  startDailyCountdown();
 
   // Initialize Route from URL / Hash
   handleInitialRoute();
@@ -393,12 +384,14 @@ function navigateTo(route, push = true) {
   soundManager.playClick();
   currentRoute = route || '/home';
 
-  // Synchronize browser history and hash
+  // Synchronize browser history and hash safely
   if (push && typeof window !== 'undefined') {
     if (window.location && window.location.protocol === 'file:') {
       window.location.hash = currentRoute;
     } else if (window.history && typeof window.history.pushState === 'function') {
-      window.history.pushState({ route: currentRoute }, '', currentRoute);
+      window.history.pushState({ route: currentRoute }, '', '#' + currentRoute);
+    } else {
+      window.location.hash = currentRoute;
     }
   }
 
@@ -415,9 +408,6 @@ function navigateTo(route, push = true) {
   } else if (currentRoute === '/leaderboard') {
     renderLeaderboard('all');
     showPage('page-leaderboard');
-  } else if (currentRoute === '/profile') {
-    updateProfileViews();
-    showPage('page-profile');
   } else if (currentRoute === '/settings') {
     showPage('page-settings');
   } else if (currentRoute.startsWith('/games/')) {
@@ -518,7 +508,7 @@ function showFunnyFeedback(type, customText = null) {
 }
 
 /* ==========================================================================
-   6. GLOBAL CONTROLS & SOUND TOGGLES
+   6. GLOBAL CONTROLS, SOUND TOGGLES & KEYBOARD SHORTCUTS
    ========================================================================== */
 
 function wireGlobalControls() {
@@ -528,28 +518,31 @@ function wireGlobalControls() {
   const arenaSoundBtn = document.getElementById('arena-sound-btn');
   if (arenaSoundBtn) arenaSoundBtn.addEventListener('click', toggleSound);
 
-  // Callsign edit on Profile page
-  const editHandleBtn = document.getElementById('edit-handle-btn');
-  if (editHandleBtn) {
-    editHandleBtn.addEventListener('click', () => {
-      soundManager.playClick();
-      const newHandle = prompt('Enter your gaming callsign (Max 12 chars):', profile.handle);
-      if (newHandle && newHandle.trim()) {
-        profile.handle = newHandle.trim().toUpperCase().slice(0, 12);
-        persistProfile();
-        updateProfileViews();
-        showFunnyFeedback('streak', `Callsign set to ${profile.handle}!`);
-      }
-    });
-  }
 
-  // Keyboard shortcut for audio toggle ('M')
+  // Keyboard shortcuts: M = Mute, P = Pause, R = Restart
   if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
     window.addEventListener('keydown', e => {
       if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
       if (e.key === 'm' || e.key === 'M') {
         e.preventDefault();
         toggleSound();
+      } else if (e.key === 'p' || e.key === 'P') {
+        if (currentRoute.startsWith('/games/') && gameSession && !gameSession.ended) {
+          e.preventDefault();
+          gameSession.paused = !gameSession.paused;
+          const overlay = document.getElementById('pause-overlay');
+          if (overlay) {
+            if (gameSession.paused) overlay.classList.remove('hidden');
+            else overlay.classList.add('hidden');
+          }
+        }
+      } else if (e.key === 'r' || e.key === 'R') {
+        if (currentRoute.startsWith('/games/') && activeGameId) {
+          e.preventDefault();
+          document.getElementById('pause-overlay')?.classList.add('hidden');
+          document.getElementById('finish-modal')?.classList.add('hidden');
+          launchGameArena(activeGameId);
+        }
       }
     });
   }
@@ -613,8 +606,10 @@ function updateBestScoresOnCards() {
   if (!profile) return;
   document.querySelectorAll('[data-best-for]').forEach(el => {
     const gId = el.getAttribute('data-best-for');
-    if (profile.bestScores && profile.bestScores[gId] !== undefined) {
+    if (profile.bestScores && profile.bestScores[gId] > 0) {
       el.textContent = profile.bestScores[gId].toLocaleString();
+    } else {
+      el.textContent = '--';
     }
   });
 }
@@ -788,6 +783,17 @@ function finishGameRound(finalScore, customAccuracy = null) {
     profile.bestOverallScore = finalScore;
   }
 
+  // Save Daily Score if playing daily challenge (Quick Calc)
+  if (activeGameId === 'calc') {
+    try {
+      localStorage.setItem(STORAGE_KEYS.DAILY, JSON.stringify({
+        date: new Date().toDateString(),
+        score: finalScore
+      }));
+      checkDailyStatus();
+    } catch (e) {}
+  }
+
   // Log to Game History
   const historyEntry = {
     game: GAME_METADATA[activeGameId].name,
@@ -806,6 +812,33 @@ function finishGameRound(finalScore, customAccuracy = null) {
   updateProfileViews();
   updateBestScoresOnCards();
 
+  // Update Campus Leaderboard with real player score
+  let userEntry = leaderboard.find(e => e.isUser);
+  if (!userEntry) {
+    userEntry = {
+      rank: 1,
+      name: profile.handle,
+      campus: 'Campus Lab',
+      xp: profile.xp,
+      score: finalScore,
+      games: profile.gamesPlayed,
+      isUser: true
+    };
+    leaderboard.push(userEntry);
+  } else {
+    userEntry.name = profile.handle;
+    userEntry.xp = profile.xp;
+    userEntry.games = profile.gamesPlayed;
+    if (finalScore > userEntry.score) {
+      userEntry.score = finalScore;
+    }
+  }
+  leaderboard.sort((a, b) => b.score - a.score);
+  leaderboard.forEach((entry, idx) => entry.rank = idx + 1);
+  persistLeaderboard();
+  renderLeaderboard('all');
+  renderHomeLeaderboardPreview();
+
   // Populate Finish Modal
   document.getElementById('finish-rank').textContent = rank;
   document.getElementById('finish-score').textContent = finalScore.toLocaleString();
@@ -817,12 +850,9 @@ function finishGameRound(finalScore, customAccuracy = null) {
 }
 
 function checkAchievements(finalScore, accuracy) {
-  let unlockedNew = false;
-
   const unlock = (id, name) => {
     if (!profile.achievements[id]) {
       profile.achievements[id] = true;
-      unlockedNew = true;
       soundManager.playLevelUp();
       showFunnyFeedback('streak', `Achievement Unlocked: ${name}! 🏆`);
     }
@@ -850,7 +880,6 @@ function wireFinishModal() {
    ========================================================================== */
 
 function initMemoryMatrix() {
-  const stage = document.getElementById('game-stage');
   engine = {
     gridSize: 3,
     targetCount: 3,
@@ -1062,7 +1091,7 @@ function onCalcAnswer(selected, btn) {
 
 /* ==========================================================================
    12. GAME 3: NUMBER RUSH
-   ========================================================================== */
+   ========================================================================= */
 
 function initNumberRush() {
   playNumberRushRound();
@@ -1865,8 +1894,6 @@ function persistProfile() {
 function updateProfileViews() {
   if (!profile) return;
   const level = Math.floor(profile.xp / 400) + 1;
-  const xpInLevel = profile.xp % 400;
-  const xpPercent = Math.round((xpInLevel / 400) * 100);
 
   // Home preview elements
   const hHandle = document.getElementById('home-player-handle');
@@ -1879,74 +1906,8 @@ function updateProfileViews() {
   if (hStreak) hStreak.textContent = `🔥 ${profile.streakDays} DAYS`;
   const hGames = document.getElementById('home-games-played');
   if (hGames) hGames.textContent = profile.gamesPlayed.toLocaleString();
-
-  // Profile Page elements
-  const pHandle = document.getElementById('profile-handle');
-  if (pHandle) pHandle.textContent = profile.handle;
-  const pLvl = document.getElementById('profile-lvl-num');
-  if (pLvl) pLvl.textContent = `LVL ${level}`;
-  const pFill = document.getElementById('profile-xp-fill');
-  if (pFill && pFill.style) pFill.style.width = `${xpPercent}%`;
-  const pCaption = document.getElementById('profile-xp-caption');
-  if (pCaption) pCaption.textContent = `${profile.xp.toLocaleString()} XP`;
-
-  const profBest = document.getElementById('prof-best-score');
-  if (profBest) profBest.textContent = profile.bestOverallScore.toLocaleString();
-  const profStreak = document.getElementById('prof-streak');
-  if (profStreak) profStreak.textContent = `🔥 ${profile.streakDays} DAYS`;
-  const profGames = document.getElementById('prof-total-games');
-  if (profGames) profGames.textContent = profile.gamesPlayed.toLocaleString();
-
-  // Render Achievements
-  renderAchievements();
-
-  // Render Game History
-  renderHistoryTable();
 }
 
-function renderAchievements() {
-  const container = document.getElementById('achievements-container');
-  if (!container) return;
-
-  const list = [
-    { id: 'first_game', icon: '🧠', name: 'First Game', desc: 'Played your initial brain trial.' },
-    { id: 'streak_10', icon: '🔥', name: '10 Game Streak', desc: 'Maintained 10 correct answers in a row.' },
-    { id: 'speed_demon', icon: '⚡', name: 'Speed Demon', desc: 'Score 1,500+ in Fast Tap or Quick Calc.' },
-    { id: 'accuracy_90', icon: '🎯', name: '90% Accuracy', desc: 'Completed a round with elite precision.' },
-    { id: 'high_scorer', icon: '🏆', name: 'High Scorer', desc: 'Crossed 2,000 points in any game.' },
-    { id: 'trap_survivor', icon: '🪤', name: 'Trap Survivor', desc: 'Score 1,000+ in Brain Trap without failing.' }
-  ];
-
-  container.innerHTML = list.map(a => {
-    const isUnlocked = profile.achievements && profile.achievements[a.id];
-    return `
-      <div class="achieve-card ${isUnlocked ? 'unlocked' : 'locked'}">
-        <span class="achieve-icon">${a.icon}</span>
-        <strong class="achieve-name">${a.name}</strong>
-        <p class="achieve-desc">${a.desc}</p>
-      </div>
-    `;
-  }).join('');
-}
-
-function renderHistoryTable() {
-  const container = document.getElementById('history-rows-container');
-  if (!container) return;
-
-  if (!profile.history || profile.history.length === 0) {
-    container.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-muted);">No game history recorded yet. Start playing!</div>';
-    return;
-  }
-
-  container.innerHTML = profile.history.map(item => `
-    <div class="history-row">
-      <span class="history-game-name">${escapeHtml(item.game)}</span>
-      <span class="history-score">${item.score.toLocaleString()}</span>
-      <span class="history-acc">${item.accuracy}</span>
-      <span class="history-time">${escapeHtml(item.date)}</span>
-    </div>
-  `).join('');
-}
 
 /* ==========================================================================
    19. CAMPUS LEADERBOARD VIEWS
@@ -2099,6 +2060,28 @@ function checkDailyStatus() {
       }
     }
   } catch (e) {}
+}
+
+function startDailyCountdown() {
+  const timerTag = document.getElementById('home-daily-timer');
+  if (!timerTag) return;
+
+  function updateCountdown() {
+    const now = new Date();
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0);
+    const diffMs = midnight - now;
+
+    const hours = Math.floor(diffMs / (1000 * 60 * 60));
+    const mins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+    const pad = n => String(n).padStart(2, '0');
+    timerTag.textContent = `RESETS IN ${pad(hours)}:${pad(mins)}:${pad(secs)}`;
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
 }
 
 /* ==========================================================================
