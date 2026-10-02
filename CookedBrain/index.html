@@ -9,38 +9,76 @@
 <body>
   <div class="hills"></div>
 
- <header>
-  <div class="brand" id="brand">
-    <img src="cooked.png" alt="CookedBrain logo">
-    <span>CookedBrain</span>
-  </div>
-  <div id="playerLabel"></div>
-</header>
-
-  <!-- Progress tracker -->
-  <nav id="progress" class="progress hidden">
-    <div class="step"><span class="dot">1</span><b>Flex Mode</b></div><i class="line"></i>
-    <div class="step"><span class="dot">2</span><b>Math Mode</b></div><i class="line"></i>
-    <div class="step"><span class="dot">3</span><b>Memory</b></div><i class="line"></i>
-    <div class="step"><span class="dot">4</span><b>Results</b></div>
-  </nav>
+  <header>
+    <div class="brand" id="brand">
+      <img src="cooked.png" alt="CookedBrain logo">
+      <span>CookedBrain</span>
+    </div>
+    <div id="playerLabel"></div>
+  </header>
 
   <main>
     <!-- Landing page -->
     <section id="home" class="screen active">
-      <h1>CookedBrain</h1>
-      <h2>Uncook Your Brain.</h2>
-      <p>Challenge your focus. Sharpen your memory. Stay switched on.</p>
-      <p class="muted">Feeling cooked? Let's test it.</p>
-      <button class="cta" id="startBtn">START GAME</button>
-      <div class="cards">
-        <div class="mini"><h3><img src="flex.png " size="32" alt="Flex Mode"></img> FLEX MODE</h3><p>Test your attention and reaction.</p></div>
-        <div class="mini"><h3><img src="math.png" size="32" alt="Math Mode"></img> MATH MODE</h3><p>Calculate, compare and remember.</p></div>
-        <div class="mini"><h3><img src="memory.png" size="32" alt="Memory Matrix"></img> MEMORY MATRIX</h3><p>Remember patterns and positions.</p></div>
+      <div class="hero">
+        <h1>CookedBrain</h1>
+        <h2>Uncook Your Brain.</h2>
+        <p>Challenge your focus. Sharpen your memory. Stay switched on.</p>
+        <p class="muted">Feeling cooked? Pick a game and test it.</p>
+        <button class="cta" id="startBtn">CHOOSE A GAME</button>
       </div>
+
+      <!-- Each card starts its own separate game -->
+      <div class="cards" id="games">
+        <button class="mini" data-game="0">
+          <h3>
+            <svg class="game-icon" viewBox="0 0 120 120" aria-hidden="true">
+              <rect x="6" y="6" width="108" height="108" rx="14" fill="#fff"/>
+              <path d="M24 6v108M42 6v108M78 6v108M96 6v108M6 24h108M6 60h108M6 96h108" stroke="#b9a9e8" stroke-width="2"/>
+              <path d="M60 6v108M6 42h108M6 78h108" stroke="#1d1240" stroke-width="4.5"/>
+              <rect x="6" y="6" width="108" height="108" rx="14" fill="none" stroke="#1d1240" stroke-width="5"/>
+              <g font-family="Fredoka, sans-serif" font-weight="700" font-size="17" text-anchor="middle">
+                <text x="15" y="21" fill="#1d1240">4</text>
+                <text x="87" y="39" fill="#ff4fa3">2</text>
+                <text x="51" y="57" fill="#1d1240">6</text>
+                <text x="33" y="75" fill="#ff4fa3">3</text>
+                <text x="105" y="93" fill="#1d1240">5</text>
+                <text x="69" y="111" fill="#ff4fa3">1</text>
+              </g>
+            </svg>
+            SUDOKU
+          </h3>
+          <p>Fill the grid with logic.</p>
+          <span class="play-tag">PLAY</span>
+        </button>
+        <button class="mini" data-game="1">
+          <h3><img src="math.png" alt="Math Mode"> MATH MODE</h3>
+          <p>Calculate, compare and remember.</p>
+          <span class="play-tag">PLAY</span>
+        </button>
+        <button class="mini" data-game="2">
+          <h3><img src="memory.png" alt="Memory Matrix"> MEMORY MATRIX</h3>
+          <p>Remember patterns and positions.</p>
+          <span class="play-tag">PLAY</span>
+        </button>
+      </div>
+
+      <!-- Contributors: revealed as you scroll down -->
+      <section class="contributors" id="contributors">
+        <h2 class="reveal">Contributors</h2>
+        <p class="muted reveal">The people behind CookedBrain.</p>
+        <div class="contrib-grid">
+          <div class="contrib reveal"><div class="avatar"><span>T</span><img src="images/tanya.jpeg" alt="Tanya" onerror="this.remove()"></div><h3>Tanya Mullick</h3><p>Developer</p></div>
+          <div class="contrib reveal"><div class="avatar"><span>A</span><img src="images/soma.png" alt="Contributor name" onerror="this.remove()"></div><h3>Soma Kar</h3><p>Developer</p></div>
+          <div class="contrib reveal"><div class="avatar"><span>B</span><img src="images/TanyaK.png" alt="Contributor name" onerror="this.remove()"></div><h3>Tanya Kumari</h3><p>Developer</p></div>
+          <div class="contrib reveal"><div class="avatar"><span>C</span><img src="images/janvee.jpeg" alt="Contributor name" onerror="this.remove()"></div><h3>Janvee Kumari</h3><p>Developer</p></div>
+          <div class="contrib reveal"><div class="avatar"><span>D</span><img src="images/k-jayshree.jpeg" alt="Contributor name" onerror="this.remove()"></div><h3>K.Rajshree</h3><p>Developer</p></div>
+        </div>
+        <p class="hint reveal">Made with brain cells and a lot of snacks.</p>
+      </section>
     </section>
 
-    <!-- Name entry -->
+    <!-- Name entry (asked once, then every game uses it) -->
     <section id="name" class="screen panel">
       <h2>Welcome to CookedBrain!</h2>
       <p>What's your name?</p>
@@ -49,14 +87,7 @@
       <button class="cta" id="nameBtn">CONTINUE</button>
     </section>
 
-    <!-- Welcome -->
-    <section id="welcome" class="screen panel">
-      <h2>Welcome, <span id="welcomeName"></span>!</h2>
-      <p>Three quick challenges. Flex, Math, Memory. Ready?</p>
-      <button class="cta" id="welcomeBtn">LET'S GO</button>
-    </section>
-
-    <!-- Tutorial (reused for all 3 games) -->
+    <!-- Tutorial (reused for every game) -->
     <section id="intro" class="screen panel">
       <div class="big-icon" id="introIcon"></div>
       <h2 id="introTitle"></h2>
@@ -66,21 +97,24 @@
       <button class="cta" id="introBtn">START CHALLENGE</button>
     </section>
 
-    <!-- Game 1: Flex Mode -->
-    <section id="flex" class="screen panel">
-      <div class="stats"><b>FLEX MODE</b><span>Round <span id="flexRound"></span></span><span>Score: <span id="flexScore"></span></span></div>
-      <div class="rule" id="flexRule"></div>
-      <div class="stage"><div class="mover" id="leafMover"></div></div>
-      <div class="feedback" id="flexFb"></div>
-      <p class="muted">Use your arrow keys</p>
-      <div class="pad">
-        <button data-key="ArrowUp">↑</button>
-        <div><button data-key="ArrowLeft">←</button><button data-key="ArrowDown">↓</button><button data-key="ArrowRight">→</button></div>
+    <!-- Game: Sudoku (one level) -->
+    <section id="sudoku" class="screen panel">
+      <div class="stats"><b>SUDOKU</b><span>Time: <span id="sudTime">0:00</span></span><span>Mistakes: <span id="sudMistakes">0</span></span></div>
+      <p class="rule" id="sudStatus">Pick a cell, then pick a number</p>
+      <div id="sudGrid"></div>
+      <div class="feedback" id="sudFb"></div>
+      <div class="numpad" id="numpad">
+        <button data-n="1">1</button><button data-n="2">2</button><button data-n="3">3</button>
+        <button data-n="4">4</button><button data-n="5">5</button><button data-n="6">6</button>
       </div>
-      <p class="hint">Home = remind me the rule · PageDown = skip</p>
+      <div class="tools">
+        <button class="ghost" id="eraseBtn">⌫ Erase</button>
+        <button class="ghost" id="hintBtn">💡 Hint</button>
+      </div>
+      <p class="hint">Keys: 1-6 to fill · Backspace to erase · Arrow keys to move</p>
     </section>
 
-    <!-- Game 2: Math Mode -->
+    <!-- Game: Math Mode -->
     <section id="math" class="screen panel">
       <div class="stats"><b>MATH MODE</b><span>Round <span id="mathRound"></span></span><span>Score: <span id="mathScore"></span></span></div>
       <p class="rule" id="mathPrompt"></p>
@@ -89,7 +123,7 @@
       <div class="feedback" id="mathFb"></div>
     </section>
 
-    <!-- Game 3: Memory Matrix -->
+    <!-- Game: Memory Matrix -->
     <section id="memory" class="screen panel">
       <div class="stats"><b>MEMORY MATRIX</b><span>Level: <span id="memRound"></span></span><span>Score: <span id="memScore"></span></span></div>
       <p class="rule" id="memStatus"></p>
@@ -97,23 +131,14 @@
       <div class="feedback" id="memFb"></div>
     </section>
 
-    <!-- Completion (reused) -->
-    <section id="complete" class="screen panel">
-      <h2 id="completeTitle"></h2>
-      <p>Score: <b id="completeScore"></b></p>
-      <p>Accuracy: <b id="completeAcc"></b></p>
-      <button class="cta" id="completeBtn">CONTINUE</button>
-    </section>
-
-    <!-- Results -->
+    <!-- Results (for the game you just played) -->
     <section id="results" class="screen">
       <h2 id="resultsTitle"></h2>
       <p id="resultsMsg"></p>
       <div class="cards" id="resultCards"></div>
-      <div class="overall">OVERALL SCORE<strong id="overall"></strong></div>
       <div class="btn-row">
         <button class="cta" id="playAgainBtn">PLAY AGAIN</button>
-        <button class="ghost" id="homeBtn">BACK TO HOME</button>
+        <button class="ghost" id="homeBtn">MORE GAMES</button>
       </div>
       <p class="hint">Scores are just game stats, not an IQ or health measure.</p>
     </section>
