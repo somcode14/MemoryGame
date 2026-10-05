@@ -115,7 +115,7 @@ header {
   transition: transform .3s;
 }
 .brand:hover img { transform: rotate(-12deg) scale(1.08); }
-#playerLabel { font-weight: 700; letter-spacing: 1px; }
+#playerLabel { font-weight: 800; letter-spacing: 1px; }
 #playerLabel:not(:empty) {
   background: var(--ink);
   color: #fff;
